@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html"; charset="UTF-8">
+        <meta name= "description" content= "">
+              <meta name= "keywords" content= "">
+        <title>Tresure</title>
+        <link rel= "shortcut icon" href= "/static/image/littlestar.png"/>
+        <link rel="stylesheet" type="text/css" href="/static/css/init.css">
+        <script src="/static/script/jquery-1.11.1.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('.changableletter').removeAttr('title');
+                $('.changableletter').mouseenter(function(){
+                    var $this= $(this);
+                    var $span= $this.parent().find("span");
+                    $this.animate({
+                        opacity: 0.3
+                    }, 200, function(){                 
+                        $this.css('opacity', 1);   
+                        $span.css('display', 'inline');
+                        var src= $this.attr('src').toString();
+                        $this.attr("src", src.slice(0, src.length- 4)+ 'B.png');
+                    });
+                });
+                $('.changableletter').mouseleave(function(){
+                    var $this= $(this);
+                    var $span= $this.parent().find("span");
+                    $this.stop(true, true);
+                    $span.css('display', 'none');
+                    var src= $this.attr('src').toString();
+                    $this.attr("src", src.slice(0, src.length- 5)+ '.png');
+                });
+            });
+        </script>
+        <style type="text/css">
+            /*这里的html很关键!!! 否则不会100%高度.*/
+            html, body{
+                width: 100%;
+                height: 100%;
+                margin: 0px;
+                padding: 0px;
+                position: relative;
+
+                *position: relative; /*for ie*/
+                /*display: table;*/
+            }
+            .letter{
+                cursor: pointer;
+                position: relative;
+            }
+           /*  用table-cell的方法做垂直居中.
+           .table-cell{                
+               display: table-cell ;
+               horizontal-align: middle;
+           } */
+            /*用relative方法可以在不设定width的情况下做到水平居中, 但是不设定height就不能做到垂直居中, 为什么?*/
+            .nav{
+                padding: 0px;
+                list-style: none;
+                height: 200px;
+                /*IE下和chrome下好像计算方式不同, 导致图片的宽度有微小差异. 按照IE那里较大的宽度进行计算.*/
+                width: 1070px;
+
+                position: absolute;
+                margin:  auto;
+                left: 0px;
+                right: 0px;
+                top: 0px;
+                bottom: 0px;
+            }
+            /*不用float 用inline-block是为了图片底对齐.  这里不能使用inline, 使用inline会出问题, 应该是inline对于width设置无效的问题. */
+            .letterContainer{
+                float: left;
+                position: relative;
+               height: 200px;
+               margin:0 15px;
+            }
+            .letterlink{
+                float: left; 
+                height: 200px;
+            }
+            .lspanlocation{
+                top: 35%;
+            }
+        </style>   
+    </head>
+    <body>
+        <!-- <a href="http://v.t.sina.com.cn/share/share.php?title='你好 hello world'" target="shareToMB" id= "shareToMB">分享到微博</a> -->
+            <div style= "height: 50%;"></div>
+            <ul class= "nav">
+                <li class= "letterContainer"> 
+                    {# a如果不float:left, IE下有BUG, li会多空出来一段, float 后bug解决. #}
+                    <a href="/blog/" target= 'blog' class= 'letterlink'>           
+                        {# title用来显示辅助信息, 鼠标悬停即提示. alt在图片读取失败时进行显示. #}
+                        {# 在这里, 如果浏览器支持JS, 则删除title属性, 若不支持, 可以进行相应提示. #}
+                        <img id= "L" src="/static/image/L.png" class= "letter changableletter " height= "100%" title= 'blog' alt= 'blog'>
+                    </a>   
+                    <div style= 'clear:both;'></div>
+                </li>
+                <li class= "letterContainer">     
+                    <a href="/game/" target= 'game' class= 'letterlink'>                
+                        <img id= 'O' src="/static/image/O.gif" class= "letter" height= "100%" title= 'game' alt= 'game'> 
+                    </a>   
+                    <div style= 'clear:both;'></div>
+                </li>
+                <li class= "letterContainer">
+                    <a href="/aboutme/" target= 'aboutme' class= 'letterlink'>
+                        <img id= "V" src="/static/image/V.png" class= "letter changableletter" height= "100%" title= 'about me' alt= 'about me'>
+                    </a>
+                    <div style= 'clear:both;'></div>
+                </li>
+                <li class= "letterContainer">              
+                    <a href="/illustration/" target= 'ill' class= 'letterlink'>       
+                        <img  id= "E" src="/static/image/E.png" class= "letter changableletter" height= "100%" title= 'illustration' alt= 'illustration'>
+                    </a>
+                    <div style= 'clear:both;'></div>
+                </li>
+                <div style= "clear: both;"></div>
+            </ul>
+        
+
+
+            <!-- <p class= "LletterTip">大宝贝我错了! T T</p>
+            <img src="L.jpg" class= "Lletter"> -->
+        </div>
+    </body>
+</html>
+
+
+
+
+
+
+
+

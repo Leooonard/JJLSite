@@ -1,0 +1,26 @@
+{% extends 'error.html' %}
+
+{% block extrahead %}
+   <title>404 Error</title>
+   <style type="text/css">
+      a{
+         font-size: 1em !important;
+         text-decoration: underline;
+      }
+      br{
+         font-size: 0.2em !important;
+      }
+   </style>
+{% endblock %}
+
+{% block extracontent %}
+   <article>
+      404 Error!  Page doesn't exist, click <a href="
+         {% if href %}
+            {{href}}
+         {% else %}
+            /main/
+         {% endif %}
+      ">here</a>.
+   </article>
+{% endblock %}

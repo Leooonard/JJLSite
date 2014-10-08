@@ -1,0 +1,129 @@
+{% extends 'admin/change_form.html' %}
+
+
+{% block extrahead %}
+      {{block.super}}
+      <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
+      <style type="text/css">
+            .clearCache{
+                  display: inline-block;
+                  padding: 8px;
+                  font-size: 1.2em;
+                  font-family: Microsoft Yahei;
+                  color: white;
+                  background-color: #3947FF;
+                  border: solid 1px #397BFF;
+                  border-radius: 5px;
+                  cursor: pointer;
+                  margin-bottom: 20px;
+            }
+      </style>
+      <script type="text/javascript" src= "/static/script/jquery-1.11.1.min.js"></script>
+      <!-- 配置文件 -->
+      <script type="text/javascript" src="/ue/ueditor.config.js"></script>
+      <!-- 编辑器源码文件 -->
+      <script type="text/javascript" src="/ue/ueditor.all.js"></script>
+      <script type="text/javascript">
+            function DeleteCacheIllustration(e){
+                  var event= e|| window.event;
+                  var $this= $(this);
+                  var $getlist= $('#myadmin_getlist');
+                  var href= $this.attr('href');
+                  $this.text('删除中...');
+                  $this.removeAttr('href');
+                  $.get(href, function(data){
+                        if(data== 'success'){
+                              alert('删除成功!');
+                              $this.parent().parent().remove();
+                        }else{
+                              alert('删除失败, 将重新获取列表!');
+                              $getlist.trigger('click');
+                        }
+                  });
+                  return false;
+            }
+
+            $(document).ready(function(){
+                  $('input:submit[name= "_addanother"]').remove();
+                  $('input:submit[name= "_continue"]').remove();
+                  var $getlist= $('#myadmin_getlist');
+                  var $alldelete= $('#myadmin_alldelete');
+                  var $table= $('table');
+                  var $clearing= $('<p>获取配图列表中, 请稍后...</p>');
+                  $getlist.click(function(e){
+                        var event= e|| window.event;
+                        var $this= $(this);
+                        $.get('/getCacheIllustrationList/', function(data, status){
+                              if(data== '列表为空!'){                             
+                                    alert('配图列表为空!');
+                              }else{
+                                    data= JSON.parse(data);
+                                    for(var i= 0; i< data.length; i++){
+                                          var $tr= $('<tr>');
+                                          var $tdname= $('<td>');
+                                          $tdname.text(data[i].name);
+                                          $tdname.css('width', '300px');
+                                          var $tdimg= $('<td>');
+                                          $tdimg.css('width', '350px');
+                                          var $img= $('<img>');
+                                          $img.attr('src', data[i].path);
+                                          $img.css('width', '300px');
+                                          $tdimg.append($img);
+                                          var $tddelete= $('<td>');
+                                          var $a= $('<a>');
+                                          $tddelete.append($a);
+                                          $a.text('删除');
+                                          $a.attr('href', '/deletecacheillitem/'+ parseInt(data[i].id)+ '/');
+                                          $a.click(DeleteCacheIllustration);
+                                          $tr.append($tdname);
+                                          $tr.append($tdimg);
+                                          $tr.append($tddelete);
+                                          $table.append($tr);
+                                    }
+                              }
+                              $clearing.remove();
+                              $this.removeAttr('disabled');
+                              $this.css('background-color', '#3947FF');
+                              $this.css('border', 'solid 1px #397BFF');
+                              $this.text('更新配图列表');
+                        });
+                        $alldelete.after($clearing);
+                        $this.css('background-color', 'red');
+                              $this.css('border', 'solid 1px red');
+                        $this.attr('disabled', '');
+                        $table.empty();
+                  });
+                  var $text= $('textarea');
+                  var content= $text.text();
+                  for(var i= 0; i< 3; i++){
+                        $text.before($('</br>'));
+                  }
+                  var id= $text.attr('id');
+                  var ue= new baidu.editor.ui.Editor({
+                        serverUrl: '/ueditor/blog/'
+                  });
+                  // ue.ui.imageActionName= 'uploadfile&target=blog';
+                  ue.render(id);
+                  // ue.setContent(content|| '');
+            });
+      </script>
+{% endblock %}
+
+
+
+{% block  after_related_objects %}
+      <button id= 'myadmin_getlist' class= 'clearCache'>获取配图列表</button>
+      <button id= 'myadmin_alldelete' class= 'clearCache' disabled>一键删除全部配图</button>
+      <table class= 'table table-hover table-striped table-bordered' style= 'width: 800px;'>
+            <thead>
+                  <tr>              
+                        <th>图片名</th>
+                        <th>预览图</th>
+                        <th>删除</th>
+                  </tr>
+            </thead>
+            <tbody>              
+            </tbody>
+      </table>
+{% endblock %}
+

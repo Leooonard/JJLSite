@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html"; charset="UTF-8">
+        <meta name= "description" content= "">
+              <meta name= "keywords" content= "">
+        <title>大宝贝的网站</title>
+        <link rel= "shortcut icon" href= "image/icon.ico"/>
+        <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
+        <script src="/static/script/jquery-1.11.1.min.js"></script>
+        <!--[if lt IE9]> 
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <script type="text/javascript">
+            var MASK_COLOR= ['#E60012', '#FFF100', '#00A0E9', '#B8D200', '#EF94AE'];
+
+            function ShowHiddenNavImage(that, power){           
+                    var $this= $(that);
+                    var $hidenavimg= $this.children('.hidenavimg');
+                    var $navimg= $this.children('.navimg');
+                    $hidenavimg.css('display', 'inline');
+                    var width= parseInt($this.css('width'));
+                    var height= parseInt($this.css('height'));
+                    $hidenavimg.css('height', height* 0.8 + 'px');
+                    // $hidenavimg.css('left', '35%');
+                    $hidenavimg.stop();
+                    $hidenavimg.animate({
+                        width: width* power,
+                    }, 400);
+            }
+
+            function HideHiddenNavImage(that){               
+                    var $this= $(that);
+                    var $img= $this.children('.hidenavimg');
+                    $img.stop();
+                    var width= parseInt($img.css('width'));
+                    $img.animate({
+                        width: '0px'
+                    }, 400, function(){
+                        $img.css('width', '0px');
+                        $img.css('display', 'none');
+                    });
+            }
+
+            $(document).ready(function(){          
+                var $navul= $('.navul');
+                $navul.css('left', $('nav').offset().left);
+                $navul.css('top', '60px');
+                $navul.css('width', $('nav').css('width'));
+
+                var $input= $('.input');
+                $input.css('height', parseInt($input.css('width'))* (61/ 65)+ 'px');
+                $input.mouseenter(function(e){
+                    var event= e|| window.event;
+                    var $this= $(this);
+                    var $btn= $this.parent().find('img');
+                    var width= parseInt($this.css('width'));
+                    $this.stop();
+                    $this.animate({
+                        width: width* 4+ 'px'
+                    }, 400);
+                });
+                $input.mouseleave(function(e){
+                    var event= e|| window.event;
+                    var $this= $(this);
+                    $this.stop();
+                    $this.animate({
+                        width: '50%'
+                    }, 400);
+                });
+
+                var $searchbtn= $('.searchbtn');
+                $searchbtn.mouseenter(function(e){
+                    var event= e|| window.event;
+                    var $this= $(this);
+                    $this.attr('src', '/static/image/searchoverbtn.png');
+                });
+                $searchbtn.mouseleave(function(e){                
+                    var event= e|| window.event;
+                    var $this= $(this);
+                    $this.attr('src', '/static/image/searchbtn.png');
+                });
+
+                var $bloglink= $('#bloglink');
+                var $illustrationlink= $('#illustrationlink');
+                var $aboutmelink= $('#aboutmelink');
+
+                $bloglink.mouseenter(function(e){
+                    var event= e|| window.event;
+                    ShowHiddenNavImage(this, 2.2);
+                });
+                $illustrationlink.mouseenter(function(e){
+                    var event= e|| window.event;
+                    ShowHiddenNavImage(this, 5.54);
+                });
+                $aboutmelink.mouseenter(function(e){
+                    var event= e|| window.event;
+                    ShowHiddenNavImage(this, 3.83);
+                });
+                $bloglink.mouseleave(function(e){
+                    var event= e|| window.event;
+                    HideHiddenNavImage(this);
+                });
+                $illustrationlink.mouseleave(function(e){
+                    var event= e|| window.event;
+                    HideHiddenNavImage(this);
+                });
+                $aboutmelink.mouseleave(function(e){
+                    var event= e|| window.event;
+                    HideHiddenNavImage(this);
+                });
+
+                var $article= $('article');
+                $article.mouseenter(function(e){
+                    var event= e|| window.event;
+                    var $this= $(this);
+                    var $mask= $this.children('span.imagemask');
+                    var $maskword= $this.children('span.maskword');
+                    $mask.css('display', 'block');
+                    // random出来的范围0-1 不包括1!!!
+                    $mask.css('background-color', MASK_COLOR[parseInt(5* Math.random())]);
+                    $mask.css('opacity', 0);
+                    $mask.stop();
+                    $mask.animate({
+                        opacity: 1
+                    }, 300, function(){
+                        $maskword.css('display', 'block');
+                    });
+                });
+                $article.mouseleave(function(e){
+                    var event= e|| window.event;
+                    var $this= $(this);
+                    var $mask= $this.children('span.imagemask');
+                    var $maskword= $this.children('span.maskword');
+                    $mask.stop();
+                    $mask.animate({
+                        opacity: 0
+                    }, 300, function(){                  
+                        $mask.css('display', 'none');
+                        $maskword.css('display', 'none');
+                    });
+                });
+
+                // 后面的操作貌似会影响上面的高度, 所以放最后做.
+                // $input.parent().css('line-height', '49px');
+            });
+        </script>
+        <style type="text/css">
+            /*这里的html很关键!!! 否则不会100%高度.*/
+            *{
+                /*border: solid 1px black;*/
+                font-family: SimHei, Helvetica;
+                color: #666464;
+            }
+            article,aside,dialog,footer,header,section,footer,nav,figure,menu{display:block}
+            html, body{
+                width: 100%;
+                /*height: 100%;*/
+                margin: 0px;
+                padding: 0px;
+                position: relative;
+                overflow: visible;
+
+                *position: relative; /*for ie*/
+                /*display: table;*/
+            }
+            ul{
+                list-style: none;
+                padding: 0px;
+                /*background-color: white;*/
+            }
+            nav ul li{
+                margin: 35px 0px;
+            }
+            article{
+                width: 100%;
+                margin: 35px 0;
+                position: relative;
+                cursor: pointer;
+            }
+            .navul{
+                position: fixed;
+                z-index: 100;
+            }
+            .navlink{
+                display: block;      
+                position: relative;      
+            }
+            .navimg{
+                /*z-index: 100;*/
+                position: relative;
+                z-index: 5;
+            }
+            .hidenavimg{
+                display: none;
+                position: absolute;
+                width: 0px;
+                top: 10%;
+                left: 50%;
+                z-index: 1;    /*-1居然没被父元素遮盖?*/
+            }
+            .input{
+                position: relative;
+                width: 50%;
+                height: 100%;
+                display: inline;
+                border-style: none;
+                padding: 0px;
+                margin-right: -0.5em;
+                background-color: #FADCE9;
+                border-bottom-left-radius: 20px;
+                border-top-left-radius: 20px;
+                padding-left: 10px;
+            }
+            .input:focus{
+                outline: none;
+            }
+            .searchbtn{
+                cursor: pointer;
+                position: relative;
+                top: -0.15em;
+            }
+            .imagemask{
+                width: 100%;
+                height: 100%;
+                display: none;
+                position: absolute;
+                left: 0px;
+                top: 0px;
+            }
+            .maskword{
+                position: absolute;
+                width: 100%;
+                text-align: center;
+                display: none;
+                left: 0px;
+                top: 50%;
+                margin-top: -0.5em;
+                color: white;
+            }
+        </style>   
+    </head>
+    <body >
+        <header style= 'height: 5%; width: 100%; position: fixed; top: 0px; background-color: white; z-index: 100'>
+            
+        </header>
+        <div id= 'wrapper' class= 'container' style= 'margin-top: 25px;'>
+            <section class= 'col-md-1' style= 'padding: 0px;'>     
+                <nav> 
+                    <ul class= 'navul'>
+                        <!-- white-space: nowrap 可以防止文字换行, 也可以防止内联元素换行! -->
+                        <li style= 'white-space: nowrap;'>
+                            <input class= 'input' type= 'text'>
+                            <label style= 'position: relative; width: 50%;'>
+                                <img src="/static/image/searchbtn.png" width= '100%' class= 'searchbtn'>
+                            </label>
+                        </li>
+                        <li>
+                            <a href="#" class= 'navlink' id= 'bloglink'>
+                                <img src="/static/image/rocket.png" width= '100%' class= 'navimg'>
+                                <img src="/static/image/rocketblog.png" class= 'hidenavimg'>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class= 'navlink' id= 'illustrationlink'>                         
+                                <img src="/static/image/earth.png" width= '100%' class= 'navimg'>
+                                <img src="/static/image/earthillustration.png" class= 'hidenavimg'>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class= 'navlink' id= 'aboutmelink'>                         
+                                <img src="/static/image/allien.png" width= '100%' class= 'navimg'>
+                                <img src="/static/image/allienaboutme.png" class= 'hidenavimg'>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </section>
+            <section class='col-md-11 row'>
+                <section class= 'col-md-1'></section>
+                    <section class= 'col-md-3 gallary'>
+                        <article>
+                            <img src="img/4.jpg" width= '100%'>
+                            <span class= 'imagemask'></span>
+                            <span class= 'maskword'>--大宝贝--</span>
+                        </article>
+                        <article>
+                            <img src="img/7.jpg" width= '100%'>
+                            <span class= 'imagemask'></span>
+                            <span class= 'maskword'>--大宝贝--</span>
+                        </article>
+                        <article>
+                            <img src="img/Tip phobia.jpg" width= '100%'>
+                            <span class= 'imagemask'></span>
+                            <span class= 'maskword'>--大宝贝--</span>
+                        </article>
+                    </section>
+                    <section class= 'col-md-4 gallary'>                      
+                        <article>
+                            <img src="img/14.jpg" width= '100%'>
+                            <span class= 'imagemask'></span>
+                            <span class= 'maskword'>--大宝贝--</span>
+                        </article>
+                        <article>
+                            <img src="img/Secret.jpg" width= '100%'>
+                            <span class= 'imagemask'></span>
+                            <span class= 'maskword'>--大宝贝--</span>
+                        </article>
+                        <article>
+                            <img src="img/12.jpg" width= '100%'>
+                            <span class= 'imagemask'></span>
+                            <span class= 'maskword'>--大宝贝--</span>
+                        </article>
+                        <article>
+                            <img src="img/Winona Ryder.jpg" width= '100%'>
+                            <span class= 'imagemask'></span>
+                            <span class= 'maskword'>--大宝贝--</span>
+                        </article>
+                    </section>
+                    <section class= 'col-md-4 gallary'>          
+                        <article>
+                            <img src="img/11.jpg" width= '100%'>
+                            <span class= 'imagemask'></span>
+                            <span class= 'maskword'>--大宝贝--</span>
+                        </article>
+                        <article>
+                            <img src="img/13.jpg" width= '100%'>
+                            <span class= 'imagemask'></span>
+                            <span class= 'maskword'>--大宝贝--</span>
+                        </article>
+                        <article>
+                            <img src="img/gogogo.jpg" width= '100%'>
+                            <span class= 'imagemask'></span>
+                            <span class= 'maskword'>--大宝贝--</span>
+                        </article>
+                    </section>
+            </section>
+        </div>
+        <footer style= 'height: 5%; width: 100%; position: fixed; bottom: 0px; background-color: white;'>
+            
+        </footer>
+    </body>
+</html>
+
+
+
+
+
+
+
+

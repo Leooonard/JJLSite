@@ -1,0 +1,779 @@
+
+/****华丽的标题**/
+.title{
+	color: white;
+	font-size: 18px;
+	float: left;
+	width: 200px;
+	height: 28px;
+	line-height: 28px;
+	text-align: center;
+	font-weight: bold;
+	background: url(./title.png);
+	margin-top: 30px;
+	margin-bottom: 20px;
+}
+.title a{
+	color: white;
+}
+.title a:hover{
+}
+
+
+/**
+单场比赛 game
+	任意
+	全明星
+	季后赛
+	常规赛
+单赛季 ss
+	季后赛
+	常规赛
+职业生涯 all
+	季后赛
+	常规赛
+个人信息 info	
+**/
+#tform a{
+	float: left;
+	font-size: 14px;
+	color:white;
+	outline: none;
+	text-decoration: none;
+}
+#tform a:hover{
+	text-decoration: none;
+	outline: none;
+	cursor: pointer;
+}
+#tform a.a_timePbp{
+	float: none;
+	font-size: 12px;
+	color:#00d6ff;
+	outline: none;
+	text-decoration: none;
+}
+#tform a.a_timePbp:hover{
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+#tform .queryChuck{
+	float: left;
+	padding: 8px 0px;
+}
+#tform .item{
+	height: 22px;
+	font-size: 14px;
+	float: left;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	margin: 2px 5px;
+}
+#tform div{
+	
+	position: relative;
+}
+#tform .item180{
+	width: 180px;
+	background: url(./item180.png);
+}
+#tform .item200{
+	width: 200px;
+	background: url(./item200.png);
+}
+#tform .item230{
+	width: 230px;
+	background: url(./item230.png);
+}
+#tform .item260{
+	width: 260px;
+	background: url(./item260.png);
+}
+#tform .item680{
+	width: 680px;
+	background: url(./item680.png);
+}
+#tform .item400{
+	width: 400px;
+	background: url(./item400.png);
+}
+#tform .intro,.chooser{
+	float: left;
+}
+#tform .intro{
+	margin-left: 5px;
+	font-size: 15px;
+	height: 22px;
+	line-height: 22px;
+	font-weight: bold;
+	text-align: center;
+	color: white;
+}
+#tform .intro70{
+	width:70px;
+}
+#tform .intro40{
+	width:40px;
+}
+#tform .intro85{
+	width:85px;
+}
+#tform .result a {
+	color: #00d6ff;
+	height: 22px;
+	line-height: 22px;
+	display: block;
+	text-align: center;
+	font-weight: bold;
+	overflow: hidden;
+}
+#tform .reset a{
+	color: #00d6ff;
+	height: 22px;
+	line-height: 22px;
+	display: block;
+	text-align: center;
+	font-weight: bold;
+	overflow: hidden;
+}
+#tform .chooser100 .result a{
+	width:100px;
+	background-image:url(./chooser100.png);
+}
+#tform .chooser50 .result a{
+	width:50px;
+	background-image:url(./chooser50.png);
+}
+#tform .chooser150 .result a{
+	width:150px;
+	background-image:url(./chooser150.png);
+}
+#tform .chooser200 .result a{
+	width:200px;
+	background-image:url(./chooser200.png);
+}
+#tform .chooser620 .result a{
+	width:620px;
+	background-image:url(./chooser620.png);
+}
+.name_id_button150{
+	margin-top: 3px;
+	margin-left: 37px;
+	color: #00d6ff;
+	height: 22px;
+	line-height: 22px;
+	display: block;
+	text-align: center;
+	font-weight: bold;
+	overflow: hidden;
+	width:150px;
+	background-image:url(./chooser150.png);
+}
+.name_id_button150:hover{
+	background-image:url(./chooser_cover150.png);
+}
+#tform .reset a{
+	width:50px;
+	background-image:url(./reseter50.png);
+}
+#tform .result_down{
+	float: left;
+}
+#tform .result a:hover {
+	color: #00d6ff;
+}
+#tform .chooser100 .result a:hover{
+	background-image:url(./chooser_cover100.png);
+}
+#tform .chooser50 .result a:hover{
+	background-image:url(./chooser_cover50.png);
+}
+#tform .chooser150 .result a:hover{
+	background-image:url(./chooser_cover150.png);
+}
+#tform .chooser200 .result a:hover{
+	background-image:url(./chooser_cover200.png);
+}
+#tform .chooser620 .result a:hover{
+	background-image:url(./chooser_cover620.png);
+}
+#tform .reset a:hover{
+	background-image:url(./reseter_cover50.png);
+}
+#tform .result_down a{
+	color: #00d6ff;
+	height: 22px;
+	line-height: 22px;
+	display: block;
+	text-align: center;
+	font-weight: bold;
+}
+#tform .chooser100 .result_down a{
+	width:100px;
+	background-image:url(./chooser_down100.png);
+}
+#tform .chooser50 .result_down a{
+	width:50px;
+	background-image:url(./chooser_down50.png);
+}
+#tform .chooser150 .result_down a{
+	width:150px;
+	background-image:url(./chooser_down150.png);
+}
+#tform .chooser200 .result_down a{
+	width:200px;
+	background-image:url(./chooser_down200.png);
+}
+#tform .chooser620 .result_down a{
+	width:620px;
+	background-image:url(./chooser_down620.png);
+}
+
+#tform .option {
+	float: left;
+	border: 2px solid #00d6ff;
+	background-color: #010b40;
+	position: absolute;
+	overflow: visible;
+}
+#tform .chooser100 .option{
+	width:90px;
+}
+#tform .chooser100 .option a{
+	width:90px;
+}
+#tform .chooser50 .option{
+	width:40px;
+}
+#tform .chooser50 .option a{
+	width:40px;
+}
+#tform .chooser150 .option{
+	width:140px;
+}
+#tform .chooser150 .option a{
+	width:140px;
+}
+#tform .option a{
+	color:#00d6ff;
+	font-size: 12px;
+	height: 22px;
+	line-height: 22px;
+	display: block;
+	text-align: center;
+}
+#tform .option a:hover{
+	background: #004eb2;
+}
+
+#tform .playerChooser {
+	width: 450px;
+	height: 200px;
+	float: left;
+	border: 2px solid #00d6ff;
+	background-color: #010d23;
+	position: absolute;
+	overflow: visible;
+}
+
+#tform .teamChooser {
+	width: 616px;
+	height: 200px;
+	float: left;
+	border: 2px solid #00d6ff;
+	background-color: #010d23;
+	position: absolute;
+	overflow: visible;
+}
+/**---------------------搜索栏------------------------------*/
+#tform .searchPlayer_input div.text a input {
+	float: left;
+	color: #c1ffff;
+	width:130px;
+	display: block;
+	line-height: 20px;
+	height: 20px;
+	background: #05295A;
+    border:none;
+    padding:0;
+}
+#tform .searchPlayer_input div.text a {
+	height: 24px;
+	width: 130px;
+	line-height: 20px;
+	display: block;
+	background-image: url("./SearchPlayer_input.png");
+	padding: 4px 5px 0px 5px;
+}
+#tform .searchPlayer_input div.text {
+	width:140px;
+	height: 28px;
+}
+#tform .searchPlayer_input div.submit a {
+	width:28px;
+	height: 28px;
+	line-height: 28px;
+	display: block;
+	font-weight: bold;
+	font-size: 15px;
+	text-align: center;
+	background-image: url("./searchPlayer_submit.png");
+}
+#tform .searchPlayer_input div.submit a:hover{
+	background-image: url("./searchPlayer_submit_hover.png");
+}
+#tform .searchPlayer_input div.submit {
+	width:28px;
+	height: 28px;
+}
+#tform .searchPlayer_input div{
+	float: left;
+}
+#tform .searchPlayer_input{
+	height: 28px;
+	margin: auto auto;
+	float: left;
+}
+#tform .playerList{
+	width: 436px;
+	float: left;
+	margin: 2px 7px 7px 7px;
+}
+#tform .teamList{
+	width: 600px;
+	float: left;
+	margin: 2px 7px 7px 7px;
+}
+#tform div.name {
+	float: left;
+	margin: 3px 5px 3px 5px;
+}
+#tform div.name a {
+	color:white;
+	height: 21px;
+	line-height: 21px;
+	display: block;
+	text-align:center;
+	font-size: 13px;
+	background: none;
+	overflow: hidden;
+
+}
+#tform .playerList div.name a:hover{
+	font-weight: bold;
+	font-size: 14px;
+	color: #00d6ff;
+}
+#tform div.player a
+{
+	width:135px;
+	background-image:url(./playerList.png);
+}
+#tform div.player a:hover
+{
+	background-image:url(./playerList_hover.png);
+}
+#tform div.team a
+{
+	width:110px;
+	background-image:url(./teamList.png);
+}
+#tform div.team a:hover
+{
+	background-image:url(./teamList_hover.png);
+}
+#tform div.sorryInfo a {
+	float: left;
+	line-height: 20px;
+	display: block;
+	text-align:left;
+	width:435px;
+	font-size: 15px;
+	color:#fff55a;
+}
+#tform div.sorryInfo {
+	float: left;
+	border:3px solid #0a3671;
+	width:429px;
+}
+
+#tform .close a {
+	width:28px;
+	height: 28px;
+	line-height: 28px;
+	display: block;
+	font-weight: bold;
+	font-size: 15px;
+	text-align: center;
+	background-image: url("./close.png");
+}
+#tform .close a:hover{
+	background-image: url("./close_hover.png");
+}
+#tform .close{
+	float: left;
+	position: absolute;
+	overflow: visible;
+	width:28px;
+	height: 28px;
+	top: -14px;
+}
+#tform .playerChooser .close{
+	left:436px;
+}
+#tform .teamChooser .close{
+	left:602px;
+}
+
+/*******************************************杂项*********************************************/
+#tform .QQ_input div.text a input {
+	vertical-align:middle;
+	color: #00d6ff;
+	font-weight: bold;
+	float: left;
+	display: block;
+	line-height: 18px;
+	height: 18px;
+	background: #010a51;
+    border:none;
+	padding: 0;
+}
+#tform .QQ_input4 div.text a input {
+	width:34px;
+}
+#tform .QQ_input2 div.text a input {
+	width:18px;
+}
+#tform .QQ_input580 div.text a input {
+	width:576px;
+}
+#tform .QQ_input div.text a {
+	height: 20px;
+	line-height: 20px;
+	display: block;
+    padding:2px 2px 0px 2px;
+}
+#tform .QQ_input4 div.text a {
+	background-image: url("./QQ_input4.png");
+	width: 34px;
+}
+#tform .QQ_input2 div.text a {
+	background-image: url("./QQ_input2.png");
+	width: 18px;
+}
+#tform .QQ_input580 div.text a {
+	background-image: url("./QQ_input580.png");
+	width: 576px;
+}
+#tform .QQ_input div.text {
+	height: 22px;
+}
+#tform .QQ_input4 div.text {
+	width:38px;
+}
+#tform .QQ_input2 div.text {
+	width:22px;
+}
+#tform .QQ_input580 div.text {
+	width:580px;
+}
+#tform .QQ_input div{
+	float: left;
+}
+#tform .QQ_input{
+	height: 22px;
+	margin: 0px auto;
+	float: left;
+}
+#tform .formsubmit a{
+	width: 120px;
+	height: 50px;
+	line-height: 50px;
+	font-size: 46px;
+	background-image: url(./search.png);
+}
+#tform .formsubmit a:hover{
+	background-image: url(./search_cover.png);
+}
+#tform .formsubmit{
+	float: right;
+}
+
+/*------------选择什么方式query*/
+#querychooser{
+	float: left;
+	height: 28px;
+	margin-left: 5px;
+	margin-bottom: 20px;
+	font-size: 26px;
+}
+#querychooser a{
+	overflow: hidden
+}
+.querychooser_frame{
+	float: left;
+	height: 28px;
+	width: 10px;
+}
+.querychooser_item_left{
+	color:#00D6FF;
+	line-height: 28px;
+	text-align: center;
+	font-weight: bold;
+	float: left;
+	height: 28px;
+	width: 150px;
+	background: url(./querychooser.png) no-repeat 0px 0px;
+}
+.querychooser_item_left_current{
+	color:white;
+	line-height: 28px;
+	text-align: center;
+	font-weight: bold;
+	float: left;
+	height: 28px;
+	width: 150px;
+	background: url(./querychooser.png) no-repeat 0px -56px;
+}
+.querychooser_item_left:hover{
+	text-decoration: none;
+	background: url(./querychooser.png) no-repeat 0px -28px;
+}
+.querychooser_item_left_current:hover{
+	text-decoration: none;
+}
+.querychooser_item_right{
+	color:#00D6FF;
+	line-height: 28px;
+	text-align: center;
+	font-weight: bold;
+	float: left;
+	height: 28px;
+	width: 150px;
+	background: url(./querychooser.png) no-repeat -150px 0px;
+}
+.querychooser_item_right_current{
+	color:white;
+	line-height: 28px;
+	text-align: center;
+	font-weight: bold;
+	float: left;
+	height: 28px;
+	width: 150px;
+	background: url(./querychooser.png) no-repeat -150px -56px;
+}
+.querychooser_item_right:hover{
+	text-decoration: none;
+	background: url(./querychooser.png) no-repeat -150px -28px;
+}
+.querychooser_item_right_current:hover{
+	text-decoration: none;
+}
+.querychooser_item_middle{
+	color:#00D6FF;
+	line-height: 28px;
+	text-align: center;
+	font-weight: bold;
+	float: left;
+	height: 28px;
+	width: 150px;
+	background: url(./querychooser.png) no-repeat -300px 0px;
+}
+.querychooser_item_middle_current{
+	color:white;
+	line-height: 28px;
+	text-align: center;
+	font-weight: bold;
+	float: left;
+	height: 28px;
+	width: 150px;
+	background: url(./querychooser.png) no-repeat -300px -56px;
+}
+.querychooser_item_middle:hover{
+	text-decoration: none;
+	background: url(./querychooser.png) no-repeat -300px -28px;
+}
+.querychooser_item_middle_current:hover{
+	text-decoration: none;
+}
+.querychooser_item_coach{
+	color:#00D6FF;
+	line-height: 28px;
+	text-align: center;
+	font-weight: bold;
+	float: left;
+	height: 28px;
+	width: 150px;
+	background: url(./querychooser.png) no-repeat -800px 0px;
+}
+.querychooser_item_coach_current{
+	color:white;
+	line-height: 28px;
+	text-align: center;
+	font-weight: bold;
+	float: left;
+	height: 28px;
+	width: 150px;
+	background: url(./querychooser.png) no-repeat -800px -56px;
+}
+.querychooser_item_coach:hover{
+	text-decoration: none;
+	background: url(./querychooser.png) no-repeat -800px -28px;
+}
+.querychooser_item_coach_current:hover{
+	text-decoration: none;
+}
+.querychooser_item_middle1{
+	color:#00D6FF;
+	line-height: 28px;
+	text-align: center;
+	font-weight: bold;
+	float: left;
+	height: 28px;
+	width: 150px;
+	background: url(./querychooser.png) no-repeat -450px 0px;
+}
+.querychooser_item_middle1_current{
+	color:white;
+	line-height: 28px;
+	text-align: center;
+	font-weight: bold;
+	float: left;
+	height: 28px;
+	width: 150px;
+	background: url(./querychooser.png) no-repeat -450px -56px;
+}
+.querychooser_item_middle1:hover{
+	text-decoration: none;
+	background: url(./querychooser.png) no-repeat -450px -28px;
+}
+.querychooser_item_middle1_current:hover{
+	text-decoration: none;
+}
+.querychooser_item_middlebig{
+	color:#00D6FF;
+	line-height: 28px;
+	text-align: center;
+	font-weight: bold;
+	float: left;
+	height: 28px;
+	width: 200px;
+	background: url(./querychooser.png) no-repeat -600px 0px;
+}
+.querychooser_item_middlebig_current{
+	color:white;
+	line-height: 28px;
+	text-align: center;
+	font-weight: bold;
+	float: left;
+	height: 28px;
+	width: 200px;
+	background: url(./querychooser.png) no-repeat -600px -56px;
+}
+.querychooser_item_middlebig:hover{
+	text-decoration: none;
+	background: url(./querychooser.png) no-repeat -600px -28px;
+}
+.querychooser_item_middlebig_current:hover{
+	text-decoration: none;
+}
+
+/*------------------球星对比的css-------------------------------*/
+.playercompare_info{
+	width: 450px;
+}
+.playercompare_single_info{
+	width: 230px;
+	float: left;
+}
+div.playercompare_playerlist{
+	float: left;
+	left: 0;
+	display:none;
+	width: 470px;
+	height: 200px;
+	z-index: 99999;
+	overflow: visible;
+	top: 20px;
+}
+.playercompare_image img{
+	 float: left;
+	 width: 220px;
+	 height: 275px;
+	 border: 2px solid #00d6ff;
+}
+.playercompare_image:hover img{
+	 border: 2px solid #59e4ff;
+}
+.playercompare_vs{
+	width: 200px;
+	height:150px;
+	background: url(./vs.png);
+	float: left;
+}
+.playercompare_compare{
+	width: 200px;
+	height:50px;
+	background: url(./compare.png) no-repeat 0px 0px;
+	float: left;
+}
+.playercompare_compare:hover{
+	background: url(./compare.png) no-repeat 0px -50px;
+}
+
+#tform a.clickb100{
+	float: left;
+	height: 22px;
+	line-height: 22px;
+	width:100px;
+	text-align: center;
+	margin: 2px 3px;
+	color: #00d6ff;
+	background-image:url(./chooser100.png);
+}
+#tform a.clickb100:hover{
+	width:100px;
+	background-image:url(./chooser_cover100.png);
+}
+#tform a.clickb22{
+	float: left;
+	height: 22px;
+	line-height: 22px;
+	width:22px;
+	text-align: center;
+	margin: 2px 3px;
+	color: #00d6ff;
+	background-image:url(./chooser22.png);
+}
+#tform a.clickb22:hover{
+	width:22px;
+	background-image:url(./chooser_cover22.png);
+}
+#tform a.clickb50{
+	float: left;
+	height: 22px;
+	line-height: 22px;
+	width:50px;
+	text-align: center;
+	margin: 2px 3px;
+	color: #00d6ff;
+	background-image:url(./chooser50.png);
+}
+#tform a.clickb50:hover{
+	width:50px;
+	background-image:url(./chooser_cover50.png);
+}
+.formularline{
+	float: left;
+	width: 586px;
+	margin-left: 10px;
+}
+
+.thtwothing{
+	white-space:nowrap;
+	overflow: hidden;
+}
+#personalinfo div{
+	position: relative;
+}

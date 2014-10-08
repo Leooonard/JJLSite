@@ -1,0 +1,215 @@
+{% extends 'base.html' %}
+
+
+{% block extrahead %}
+
+<title>Illustration</title>
+<script type="text/javascript" src= "/static/script/jquery.scrollLoading.js"></script>
+<script type="text/javascript">
+    function GetQueryString(name) {
+       var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)","i");
+       var r = window.location.search.substr(1).match(reg);
+       if (r!=null) return (r[2]); return null;
+    }
+    $(document).ready(function(){
+        var $wrapper= $('.wrapper');
+        $wrapper.clone(true);
+
+        var $article= $('article');
+        $article.mouseenter(function(e){
+            var event= e|| window.event;
+            var $this= $(this);
+            var $mask= $this.children('span.imagemask');
+            var $maskword= $this.children('span.maskword');
+            $mask.css('display', 'block');
+            // random出来的范围0-1 不包括1!!!
+            $mask.css('background-color', MASK_COLOR[parseInt(5* Math.random())]);
+            $mask.css('opacity', 0);
+            $mask.stop();
+            $mask.animate({
+                opacity: 1
+            }, 300, function(){
+                $maskword.css('display', 'block');
+            });
+        });
+        $article.mouseleave(function(e){
+            var event= e|| window.event;
+            var $this= $(this);
+            var $mask= $this.children('span.imagemask');
+            var $maskword= $this.children('span.maskword');
+            $mask.stop();           
+            $mask.animate({
+                opacity: 0
+            }, 300, function(){
+                $mask.css('display', 'none');
+            });
+            $maskword.css('display', 'none');
+        });
+        $article.click(function(e){
+            var $this= $(this);
+            var id= $this.children('span.displaynone').text();
+            var page= GetQueryString('page')|| 1
+            window.location.href= '/bigillustration/'+ id+ '/'+ page+ '/';
+        });
+
+        $('.scrollloading').scrollLoading();
+
+        var $searchbtn= $('.searchbtn');
+        var $input= $('input:text');
+        $searchbtn.unbind('click');
+        $searchbtn.click(function(){
+            var text= $input.val()|| '';
+            window.open('/search/?keyword='+ text+ '&from=illustration');
+        });
+
+         var $subsearchbtn= $('.subsearchbtn');
+         var $subinput= $('.subinput');
+         $subsearchbtn.unbind('click');
+         $subsearchbtn.click(function(){            
+            var $this= $(this); 
+            var text= $subinput.val()|| '';
+            window.open('/search/?keyword='+ text+ '&from=illustration');
+         });
+    });
+</script>
+<style type="text/css">  
+    .imagemask{
+        width: 100%;
+        height: 100%;
+        display: none;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+    }
+    .maskword{
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        display: none;
+        left: 0px;
+        top: 50%;
+        margin-top: -0.5em;
+        color: white;
+    }
+
+    .wrapper{
+        width: 80%;
+        padding: 0 3%;
+        margin: 0 auto;
+    }
+    article{
+        width: 100%;
+        display: block;
+        position: relative;
+        margin-bottom: 20px;
+        cursor: pointer;
+    }
+    .illustration_extrafooter{
+        width: 100px;
+        height: 100%;
+        margin: 0 auto;
+        display: none;
+    }
+    .displaynone{
+        display: none;
+    }
+    .colomn{
+        width: 31%;
+        margin: 0 1%;
+        float: left;
+    }
+    @media screen and (max-width:1000px) and (min-width:800px){
+        .colomn{
+            width: 46% !important;
+            margin: 0 2%;
+        }
+        .colomn3{
+            clear: both;
+        }
+    }   
+    @media screen and (max-width:800px){
+        .colomn{
+            width: 94% !important;
+            margin: 0 3%;
+        }
+        .colomn2{
+            clear: both;
+        }
+        .colomn3{
+            clear: both;
+        }
+    }
+    @media screen and (max-aspect-ratio:1/1){
+        .illustration_extrafooter{
+            display: block;
+        }
+    }
+</style>
+
+{% endblock %}
+
+{% load pagination_tags %}
+
+{% block extrapagination %}
+    {% autopaginate imagelist 20 %}
+    {% paginate %}
+{% endblock %}
+
+{% block extracontent %}
+    <section class= 'wrapper'>
+        {% autopaginate imagelist 20 %}
+        <section class= 'colomn colomn1'>    
+            {% for image in imagelist %}
+                {% if forloop.counter|add:'2'|divisibleby:'3' %}                    
+                    <article>      
+                        <span class= 'displaynone'>{{image.id}}</span>      
+                        <img src="/static/image/pixel.png" width= '100%' style= 'background: url(/static/image/loading.gif/) no-repeat center;'
+                                    data-url= '/ueupload/{{image.thumb}}' class= 'scrollloading'>
+                        <span class= 'imagemask'></span>
+                        <span class= 'maskword'>
+                            by : {{image.date}}
+                        </span>
+                    </article>     
+                {% endif %}
+            {% endfor %}
+        </section>
+        <section class= 'colomn colomn2'>    
+            {% for image in imagelist %}
+                {% if forloop.counter|add:'1'|divisibleby:'3' %}                   
+                    <article>          
+                        <span class= 'displaynone'>{{image.id}}</span>     
+                        <img src="/static/image/pixel.png" width= '100%' style= 'background: url(/static/image/loading.gif/) no-repeat center;'
+                                    data-url= '/ueupload/{{image.thumb}}' class= 'scrollloading'>
+                        <span class= 'imagemask'></span>
+                        <span class= 'maskword'>
+                            by : {{image.date}}
+                        </span>
+                    </article>     
+                {% endif %}
+            {% endfor %}
+        </section>
+        <section class= 'colomn colomn3'>    
+            {% for image in imagelist %}
+                {% if forloop.counter|divisibleby:'3' %}                   
+                    <article>            
+                        <span class= 'displaynone'>{{image.id}}</span>   
+                        <img src="/static/image/pixel.png" width= '100%' style= 'background: url(/static/image/loading.gif/) no-repeat center;'
+                                    data-url= '/ueupload/{{image.thumb}}' class= 'scrollloading'>
+                        <span class= 'imagemask'></span>
+                        <span class= 'maskword'>
+                            by : {{image.date}}
+                        </span>
+                    </article>     
+                {% endif %}
+            {% endfor %}
+        </section>
+        <section style= 'clear: both;'></section>
+    </section>
+{% endblock %}
+
+{% block extrafooter %}
+    <div class= 'illustration_extrafooter'>
+        {% autopaginate imagelist 20 %}
+        {% paginate %}
+    </div>
+{% endblock %}

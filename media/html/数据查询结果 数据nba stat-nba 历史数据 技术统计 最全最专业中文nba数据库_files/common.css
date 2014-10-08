@@ -1,0 +1,215 @@
+* {
+	text-transform: none !important;
+	letter-spacing: 0 !important;
+	font-family: 微软雅黑, Helvetica, Tahoma, StSun, 宋体, SimSun, sans-serif;
+}
+.clear {
+clear: both;
+}
+.bold{
+	font-weight: bold;
+}
+body {
+	text-align:center; 
+	  display: block;
+	  color: white;
+	  background: url(/css/background.png) top repeat-x;
+	  background-color: black;
+}
+div{
+	display: block;
+/*	position: relative;*/
+	z-index: 0;
+}
+div#page{
+	width : 960px;
+	margin:0 auto;
+}
+div#background{
+	float: left;
+	width : 960px;
+	margin:0 auto;
+	margin-bottom: 50px;
+	margin-top: -15px;
+	background: #010d23;	
+	border:1px solid #333333;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 10px;
+	padding-bottom: 0px;
+}
+a{
+	color:#009CFF;
+	text-decoration: none;
+}
+a:hover
+{
+	text-decoration: underline;
+}
+#myhidden
+{
+	display: none;
+}
+
+
+/*****************header***********************/
+.header{
+	float:left;
+	width: 960px;
+}
+
+.logo{
+	float: left;
+}
+.logo a{
+	float: left;
+	background: url("/css/logo.png");
+	width: 200px;
+	height: 100px;
+}
+
+.header .itemList{
+	margin-left: 15px;
+	z-index: 9999999;
+}
+.header .quote{
+	height: 45px;
+	line-height: 14px;
+	font-size: 12px;
+	float: right;
+	width: 710px;
+	margin-right: 15px;
+	text-align: right;
+	color: #009CFF;
+}
+.header .announcement{
+	height: 20px;
+	line-height: 14px;
+	font-size: 12px;
+	float: right;
+	width: 710px;
+	margin-right: 15px;
+	text-align: left;
+	color: #fff55a;
+}
+.header .quote a{
+	color: #009CFF;
+}
+.header .quote a:hover{
+	text-decoration: underline;
+}
+.header .item{
+	float: left;
+	width: 103px;
+	margin: 1px;
+	height: 27px;
+	position: relative;
+}
+.header .normal{
+	background-image:url(./item.png);
+}
+.header .currentItem{
+	background-image:url(./item_current.png);
+}
+.header .normal a{
+	color:#00d6ff;
+	font-size: 18px;
+}
+.header .currentItem a{
+	color:white;
+	font-size: 18px;
+}
+.header .item a{
+	float: left;
+	width: 103px;
+	height: 22px;
+	line-height: 22px;
+	overflow: hidden;
+	text-align: center;
+	font-weight: bold;
+	text-decoration: none;
+}
+.header .item .itemTop{
+	float: left;
+	width: 103px;
+	height: 4px;
+	line-height: 4px;
+	overflow: hidden;
+}
+.header .item a:hover{
+	text-decoration: none;
+	color:white;
+}
+.header .itemList{
+	float: left;
+}
+
+/*******footer******/
+
+.backgf {
+	background: url(/css/background1.png) top repeat-x;
+	float: left;
+	width: 982px;
+	margin-left: -11px;
+	margin-right: -11px;
+	margin-bottom: -11px;
+	margin-top: 30px;
+	height: 40px;
+	border-top:1px solid #333333;
+}
+.bdf {
+	  background: url(/css/background2.png);
+	  float: left;
+	  width: 1px;
+	  height: 50px;
+}
+.fftext{
+	float:left;
+	text-align: left;
+	font-size: 12px;
+	margin-top: 4px;
+	margin-right: 1px;
+	margin-left: 1px;
+}
+.fftext .item{
+}
+.fftext a{
+	color: #009CFF;
+}
+.fftext a:hover{
+	text-decoration: underline;
+}
+.textwarning{
+	font-size: 12px;
+	color: rgb(255, 245, 90);
+}
+.main_relative_content div{
+	position: relative;
+}
+.itemDropDown{
+	display: none;
+	border: 3px solid #00d6ff;
+	border-top: none;
+	background: #010d23;
+	width: 97px;
+	*width:103px;
+	position: absolute;
+	left: 0px;
+	top:27px;
+	overflow: hidden;
+}
+.header .item .itemDropDown a{
+	width: 96px;
+	height: 18px;
+	line-height: 18px;
+	overflow: hidden;
+	float: left;
+	color: #00d6ff;
+	font-size: 14px;
+	position: relative;
+	margin:0px;
+}
+.header .item .itemDropDown a:hover{
+	color: white;
+	text-decoration: none;
+}

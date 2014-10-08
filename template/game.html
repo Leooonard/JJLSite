@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+      <meta name="description" content="标准html格式">
+      <meta name="keywords" content="标准html格式">
+      <title>超级色块</title>
+      <link rel="shortcut icon" href="image/favicon.ico"/>
+      <style type="text/css">
+         .colorBtn{
+            height: 60px;
+            width: 60px;
+            border-color: #89E2ED;
+            border-style: solid;
+            border-width: 3px;
+            border-radius: 7px;
+            position: relative;
+            /*这里的right是relative后, 针对父元素偏移的50%!!!*/
+            right: 50%;
+            float: right;
+            margin-right: 4px;
+            margin-left: 4px;
+            cursor: pointer;
+         }
+         #colorBtnContainer{
+            margin-top: 20px;
+            margin-bottom: 10px;
+            float: left;
+            position: relative;
+            /*这里的50%指的是父元素宽度的50%, 所有都是吗?*/
+            left: 50%;
+         }
+         .colorRectCanvas{
+            border-style: solid;
+            border-width: 4px;
+            border-color: #89E2ED;
+            border-radius: 8px;
+            display: block;
+            margin: 0 auto;
+         }
+         .container{
+            width: 540px;
+            padding: 10px;
+            margin: 0 auto;
+            margin-top: 15px;
+            font-weight: normal;
+            font-family: Helvetica;
+            background-color: white;
+            border-radius: 14px;
+            box-shadow: 0px 2px 7px 7px #BADDFF;
+         }
+         body{
+            background-image: url(/static/image/gamebackground.jpg);
+            background-repeat: repeat;
+            padding: 0px;
+            margin: 0px;
+            margin-top: -1px;
+            padding-top: 1px;
+         }
+         h1{
+            float: left;
+            margin-left: 30px;
+            color: #4C81D8;
+         }
+         button{
+            cursor: pointer;
+         }
+         .refreshBtn{
+            float: right;
+            margin-right: 30px;
+            margin-top: 23px;
+            width: 90px;
+            height: 35px;
+            background-color: #4C81D8;
+            border-color: #9AAEFC;
+            border-width: 1.5px;
+            border-style: solid;
+            border-radius: 5px;
+            color: white;
+            font-size: 0.95em;
+            font-weight: bold;
+         }
+         button:focus{
+            outline: 0;
+         }
+         .boxContainer{
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            z-index: 100;
+            background-color: black;
+            opacity: 0.5;
+         }
+         .tips{
+            margin: 0;
+            height: 20px;
+            line-height: 20px;
+            text-align: left;
+            margin-left: 10px;
+            font-family: Helvetica;
+            color: #4C81D8;
+            font-weight: bold;
+         }
+         .message{
+            height: 45px;
+            padding-top: 10px;
+            margin-bottom: 0px;
+            font-size: 1.2em;
+            /*font-weight: bold;*/
+            letter-spacing: 3px;
+            font-family: Microsoft YaHei;
+         }
+         .messageBox{
+            position: absolute;
+            width: 300px;
+            height: 150px;
+            padding: 10px;
+            margin: auto;
+            top: 0px;
+            left: 0px;
+            right: 0px;
+            bottom: 0px;
+            background-color: white;
+            z-index: 200;
+            border-radius: 7px;
+            box-shadow: 3px 4px 5px 2px #000000;
+            text-align: center;
+            transition: all 1s;
+            -webkit-transition: all 1s;
+         }
+         .confirmBtn{
+            width: 90px;
+            height: 35px;
+            background-color: #4C81D8;
+            border-color: #9AAEFC;
+            border-width: 1.5px;
+            border-style: solid;
+            border-radius: 5px;
+            color: white;
+            font-size: 0.95em;
+            font-weight: bold;
+            /*之前button不能居中是因为他本身不是块级元素!!! 用margin居中时注意元素的display属性!!!*/
+            margin: 0 auto;
+            display: block;
+         }
+         .hide{
+            display: none;
+         }
+         .show{
+            display: block;
+         }
+      </style>
+      <script type="text/javascript">
+         var COLOR_RECT= {
+            WIDTH: 25,
+            HEIGHT: 25,
+            AMOUNT: 20
+         };
+
+         var COLOR_ENUM= {
+            RED: "#940000",
+            PINK: "#FF66FF",
+            YELLOW: "#EDCC62",
+            GREEN: "#40B24B",
+            BLUE: "#51ABED",
+            VIOLET: "#8424A1"
+         };
+
+         var COLOR_NAME_ENUM= {
+            0: "RED",
+            1: "PINK",
+            2: "YELLOW",
+            3: "GREEN",
+            4: "BLUE",
+            5: "VIOLET"
+         };
+
+         var COLOR_BUTTON_ONCLICK= {
+            RED_BUTTON_CLICK: function(context){
+               UnifyColorRect(COLOR_ENUM["RED"]);
+               Refresh(context, checkAllUnified);
+            },
+            PINK_BUTTON_CLICK: function(context){
+               UnifyColorRect(COLOR_ENUM["PINK"]);
+               Refresh(context, checkAllUnified);
+            },
+            YELLOW_BUTTON_CLICK: function(context){
+               UnifyColorRect(COLOR_ENUM["YELLOW"]);
+               Refresh(context, checkAllUnified);
+            },
+            GREEN_BUTTON_CLICK: function(context){
+               UnifyColorRect(COLOR_ENUM["GREEN"]);
+               Refresh(context, checkAllUnified);
+            },
+            BLUE_BUTTON_CLICK: function(context){
+               UnifyColorRect(COLOR_ENUM["BLUE"]);
+               Refresh(context, checkAllUnified);
+            },
+            VIOLET_BUTTON_CLICK: function(context){
+               UnifyColorRect(COLOR_ENUM["VIOLET"]);
+               Refresh(context, checkAllUnified);
+            },
+         };
+
+
+
+         function UnifyColorRect(color, initialize){
+            document.getElementById("count").textContent= parseInt(document.getElementById("count").textContent)+ 1;
+            if(color== unifiedColorRectArray[0].color&& !(!!initialize)){
+               return;
+            }
+            for(var i= 0; i< unifiedColorRectArray.length; i++){
+               // 左上角那个色块.
+               var pos= unifiedColorRectArray[i].position;
+               if((pos+ 1)% 20== 1 && Math.floor(pos/ 20)== 0){
+                  if(colorRectArray[pos+ 1].color== color){
+                     if(!colorRectArray[pos+ 1].unified){                     
+                        colorRectArray[pos+ 1].unified= true;
+                        unifiedColorRectArray.push(colorRectArray[pos+ 1]);
+                     }
+                  }
+                  if(colorRectArray[pos+ 20].color== color){
+                     if(!colorRectArray[pos+ 20].unified){                       
+                        colorRectArray[pos+ 20].unified= true;
+                        unifiedColorRectArray.push(colorRectArray[pos+ 20]);
+                     }
+                  }
+                  continue;
+               }
+               // 左下角那个色块.
+               if((pos+ 1)% 20== 1 && Math.floor(pos/ 20)== 19){
+                  if(colorRectArray[pos+ 1].color== color){
+                     if(!colorRectArray[pos+ 1].unified){            
+                        colorRectArray[pos+ 1].unified= true;
+                        unifiedColorRectArray.push(colorRectArray[pos+ 1]);
+                     }
+                  }
+                  if(colorRectArray[pos- 20].color== color){
+                     if(!colorRectArray[pos- 20].unified){                       
+                        colorRectArray[pos- 20].unified= true;
+                        unifiedColorRectArray.push(colorRectArray[pos- 20]);
+                     }
+                  }
+                  continue;
+               }
+               // 右上角那个色块.
+               if((pos+ 1)% 20== 0 && Math.floor(pos/ 20)== 0){
+                  if(colorRectArray[pos- 1].color== color){
+                     if(!colorRectArray[pos- 1].unified){                        
+                        colorRectArray[pos- 1].unified= true;
+                        unifiedColorRectArray.push(colorRectArray[pos- 1]);
+                     }
+                  }
+                  if(colorRectArray[pos+ 20].color== color){
+                     if(!colorRectArray[pos+ 20].unified){
+                        colorRectArray[pos+ 20].unified= true;
+                        unifiedColorRectArray.push(colorRectArray[pos+ 20]);
+                     }
+                  }
+                  continue;
+               }
+               // 右下角那个色块.
+               if((pos+ 1)% 20== 0 && Math.floor(pos/ 20)== 19){
+                  if(colorRectArray[pos- 1].color== color){
+                     if(!colorRectArray[pos- 1].unified){                        
+                        colorRectArray[pos- 1].unified= true;
+                        unifiedColorRectArray.push(colorRectArray[pos- 1]);
+                     }
+                  }
+                  if(colorRectArray[pos- 20].color== color){
+                     if(!colorRectArray[pos- 20].unified){                       
+                        colorRectArray[pos- 20].unified= true;
+                        unifiedColorRectArray.push(colorRectArray[pos- 20]);
+                     }
+                  }
+                  continue;
+               }
+               // 最左边的那一排.
+               if((pos+ 1)% 20== 1){
+                  if(colorRectArray[pos+ 1].color== color){
+                     if(!colorRectArray[pos+ 1].unified){                     
+                        colorRectArray[pos+ 1].unified= true;
+                        unifiedColorRectArray.push(colorRectArray[pos+ 1]);
+                     }
+                  }
+                  if(colorRectArray[pos+ 20].color== color){
+                     if(!colorRectArray[pos+ 20].unified){                       
+                        colorRectArray[pos+ 20].unified= true;
+                        unifiedColorRectArray.push(colorRectArray[pos+ 20]);
+                     }
+                  }
+                  if(colorRectArray[pos- 20].color== color){
+                     if(!colorRectArray[pos- 20].unified){
+                        colorRectArray[pos- 20].unified= true;
+                        unifiedColorRectArray.push(colorRectArray[pos- 20]);
+                     }
+                  }
+                  continue;
+               }
+               // 最右边的那一排.
+               if((pos+ 1)% 20== 0){
+                  if(colorRectArray[pos- 1].color== color){
+                     if(!colorRectArray[pos- 1].unified){                     
+                        colorRectArray[pos- 1].unified= true;
+                        unifiedColorRectArray.push(colorRectArray[pos- 1]);
+                     }
+                  }
+                  if(colorRectArray[pos+ 20].color== color){
+                     if(!colorRectArray[pos+ 20].unified){                       
+                        colorRectArray[pos+ 20].unified= true;
+                        unifiedColorRectArray.push(colorRectArray[pos+ 20]);
+                     }
+                  }
+                  if(colorRectArray[pos- 20].color== color){
+                     if(!colorRectArray[pos- 20].unified){
+                        colorRectArray[pos- 20].unified= true;
+                        unifiedColorRectArray.push(colorRectArray[pos- 20]);
+                     }
+                  }
+                  continue;
+               }
+               //最上面的那一排.
+               if(Math.floor(pos/ 20)== 0){
+                  if(colorRectArray[pos- 1].color== color){
+                     if(!colorRectArray[pos- 1].unified){                     
+                        colorRectArray[pos- 1].unified= true;
+                        unifiedColorRectArray.push(colorRectArray[pos- 1]);
+                     }
+                  }
+                  if(colorRectArray[pos+ 1].color== color){
+                     if(!colorRectArray[pos+ 1].unified){                        
+                        colorRectArray[pos+ 1].unified= true;
+                        unifiedColorRectArray.push(colorRectArray[pos+ 1]);
+                     }
+                  }
+                  if(colorRectArray[pos+ 20].color== color){
+                     if(!colorRectArray[pos+ 20].unified){
+                        colorRectArray[pos+ 20].unified= true;
+                        unifiedColorRectArray.push(colorRectArray[pos+ 20]);
+                     }
+                  }
+                  continue;
+               }
+               // 最下面的那一排.
+               if(Math.floor(pos/ 20)== 19){
+                  if(colorRectArray[pos- 1].color== color){
+                     if(!colorRectArray[pos- 1].unified){                     
+                        colorRectArray[pos- 1].unified= true;
+                        unifiedColorRectArray.push(colorRectArray[pos- 1]);
+                     }
+                  }
+                  if(colorRectArray[pos+ 1].color== color){
+                     if(!colorRectArray[pos+ 1].unified){                        
+                        colorRectArray[pos+ 1].unified= true;
+                        unifiedColorRectArray.push(colorRectArray[pos+ 1]);
+                     }
+                  }
+                  if(colorRectArray[pos- 20].color== color){
+                     if(!colorRectArray[pos- 20].unified){
+                        colorRectArray[pos- 20].unified= true;
+                        unifiedColorRectArray.push(colorRectArray[pos- 20]);
+                     }
+                  }
+                  continue;
+               }
+               // 当中的所有色块这里处理.
+               if(colorRectArray[pos- 1].color== color){
+                  if(!colorRectArray[pos- 1].unified){                     
+                     colorRectArray[pos- 1].unified= true;
+                     unifiedColorRectArray.push(colorRectArray[pos- 1]);
+                  }
+               }
+               if(colorRectArray[pos+ 1].color== color){
+                  if(!colorRectArray[pos+ 1].unified){                        
+                     colorRectArray[pos+ 1].unified= true;
+                     unifiedColorRectArray.push(colorRectArray[pos+ 1]);
+                  }
+               }
+               if(colorRectArray[pos- 20].color== color){
+                  if(!colorRectArray[pos- 20].unified){
+                     colorRectArray[pos- 20].unified= true;
+                     unifiedColorRectArray.push(colorRectArray[pos- 20]);
+                  }
+               }
+               if(colorRectArray[pos+ 20].color== color){
+                  if(!colorRectArray[pos+ 20].unified){
+                     colorRectArray[pos+ 20].unified= true;
+                     unifiedColorRectArray.push(colorRectArray[pos+ 20]);
+                  }
+               }
+            }           
+            for(var i= 0; i< unifiedColorRectArray.length; i++){
+               unifiedColorRectArray[i].color= color;
+            }
+         };
+
+         var colorRectArray= new Array();
+         var unifiedColorRectArray= new Array();
+
+         function ColorRect(x, y, color, position){
+            this.x= x;
+            this.y= y;
+            this.width= COLOR_RECT.WIDTH;
+            this.height= COLOR_RECT.HEIGHT;
+            this.color= color;
+            this.unified= false;
+            this.position= position;
+         }
+
+         ColorRect.prototype.refresh= function(context){
+            context.fillStyle= this.color;
+            context.fillRect(this.x, this.y, this.width, this.height);
+         }
+
+         /*function Refresh(context){
+            var context= context;
+            for(var i= 0; i< colorRectArray.length; i++){
+               colorRectArray[i].refresh(context);
+            }
+         }*/
+
+         function Refresh(context, callback){
+            (function(arg){
+               if(arg< 20){
+                  var func= arguments.callee;
+                  for(var i= 0; i< arg; i++){
+                     colorRectArray[arg+ i* 20].refresh(context);
+                  }
+                  for(var i= 0; i< arg; i++){
+                     colorRectArray[arg* 20+ i].refresh(context);
+                  }
+                  colorRectArray[arg* 20+ arg].refresh(context);
+                  setTimeout(function(){
+                     func(arg+ 1);
+                  }, 20);
+               }else{
+                  !!callback&& callback();
+               }
+            })(0);
+         }
+
+
+         function checkAllUnified(){
+            if(unifiedColorRectArray.length== colorRectArray.length){
+               ShowMessageBox();
+            }
+         };
+
+
+         function GetRandomColor(){
+            var randomNumber= Math.round(Math.random()* 5);
+            if(randomNumber< 0|| randomNumber> 5){
+               throw "out of bound";
+            }
+            return COLOR_ENUM[COLOR_NAME_ENUM[randomNumber]];
+         }
+
+         function Init(context){
+            document.getElementById("count").textContent= -1;
+            if(colorRectArray.length> 0){
+               colorRectArray= new Array();
+            }
+            if(unifiedColorRectArray.length> 0){
+               unifiedColorRectArray= new Array();
+            }
+            for(var i= 0; i< 20; i++){
+               for(var j= 0; j< 20; j++){
+                  colorRectArray.push(new ColorRect(j* COLOR_RECT.WIDTH, i* COLOR_RECT.HEIGHT, COLOR_ENUM.RED, colorRectArray.length));
+               }
+            }
+
+            for(var i= 0; i< colorRectArray.length; i++){
+               try{
+                  colorRectArray[i].color= GetRandomColor();
+               }catch(error){
+                  alert(error);
+               }
+            }
+            colorRectArray[0].unified= true;
+            unifiedColorRectArray.push(colorRectArray[0]);
+            UnifyColorRect(colorRectArray[0].color, true);
+
+            Refresh(context);
+         }
+
+         function ShowMessageBox(){
+            document.getElementById("boxContainer").style.display= "block";
+            document.getElementById("messageBox").style.display= "block";
+            document.getElementById("messageBox").style.opacity= 0;
+            setTimeout(function(){
+               document.getElementById("messageBox").style.opacity= 1;
+            }, 300);
+         }
+
+         function CloseMessageBox(context){
+            document.getElementById("messageBox").style.opacity= 0;
+            setTimeout(function(){        
+               Init(context);
+               document.getElementById("messageBox").style.display= "none";
+               document.getElementById("boxContainer").style.display= "none";
+            }, 500);
+         }
+
+         function Window_onload(){  
+            var mainCanvas= document.getElementById("mainCanvas");
+            var mainContext= mainCanvas.getContext("2d");
+
+
+            document.getElementById("redColorBtn").style.backgroundColor= COLOR_ENUM["RED"];
+            document.getElementById("redColorBtn").onclick= function(){
+               return COLOR_BUTTON_ONCLICK.RED_BUTTON_CLICK(mainContext);
+            };
+            document.getElementById("pinkColorBtn").style.backgroundColor= COLOR_ENUM["PINK"];
+            document.getElementById("pinkColorBtn").onclick= function(){
+               return COLOR_BUTTON_ONCLICK.PINK_BUTTON_CLICK(mainContext);
+            };
+            document.getElementById("yellowColorBtn").style.backgroundColor= COLOR_ENUM["YELLOW"];
+            document.getElementById("yellowColorBtn").onclick= function(){
+               return COLOR_BUTTON_ONCLICK.YELLOW_BUTTON_CLICK(mainContext);
+            };
+            document.getElementById("greenColorBtn").style.backgroundColor= COLOR_ENUM["GREEN"];
+            document.getElementById("greenColorBtn").onclick= function(){
+               return COLOR_BUTTON_ONCLICK.GREEN_BUTTON_CLICK(mainContext);
+            };
+            document.getElementById("blueColorBtn").style.backgroundColor= COLOR_ENUM["BLUE"];
+            document.getElementById("blueColorBtn").onclick= function(){
+               return COLOR_BUTTON_ONCLICK.BLUE_BUTTON_CLICK(mainContext);
+            };
+            document.getElementById("violetColorBtn").style.backgroundColor= COLOR_ENUM["VIOLET"];
+            document.getElementById("violetColorBtn").onclick= function(){
+               return COLOR_BUTTON_ONCLICK.VIOLET_BUTTON_CLICK(mainContext);
+            };
+
+            document.getElementById("refreshBtn").onclick= function(){
+               Init(mainContext);
+            };
+
+            document.getElementById("confirmBtn").onclick= function(){
+               CloseMessageBox(mainContext);
+            };
+
+            Init(mainContext);
+
+            
+         }
+      </script>
+   </head>
+   <body onload= "Window_onload()">
+      <div id= "boxContainer" class="boxContainer hide"></div>
+      <div id= "messageBox" class= "messageBox hide">
+         <p class= "tips">Tips</p>
+         <p class= "message">大宝贝么么哒!</p>
+         <hr></hr>
+         <button id= "confirmBtn" class= "confirmBtn">Confirm</button>
+      </div>
+      <div class= "container">         
+         <div id= "stepCounter">
+            <h1>Step: <span id= "count">-1</span></h1>
+            <button class= "refreshBtn" id= "refreshBtn">Refresh</button>
+         </div>
+         <canvas class= "colorRectCanvas" id= "mainCanvas" width= "500px" height= "500px"></canvas>
+         <div>
+            <div id= "colorBtnContainer">
+               <div class= "colorBtn" id= "violetColorBtn"></div>
+               <div class= "colorBtn" id= "blueColorBtn"></div>
+               <div class= "colorBtn" id= "greenColorBtn"></div>
+               <div class= "colorBtn" id= "yellowColorBtn"></div>
+               <div class= "colorBtn" id= "pinkColorBtn"></div>
+               <div class= "colorBtn" id= "redColorBtn"></div>
+               <div style= "clear: both"></div>
+            </div>
+            <!-- 通过clear: both 可以保证子元素在float 之后, 父元素依旧占据相应的空间! -->
+            <div style= "clear: both"></div>
+         </div>
+      </div>
+   </body>
+</html>

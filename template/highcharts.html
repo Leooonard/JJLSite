@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+     <head>
+          <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+          <meta name="description" content="标准html格式">
+          <meta name="keywords" content="标准html格式">
+          <title>标准html格式</title>
+          <link rel="shortcut icon" href="image/favicon.ico"/>
+          <script type="text/javascript" src= '/static/script/jquery-1.11.1.min.js'></script>
+          <script type="text/javascript" src= '/static/script/js/highcharts.js'></script>
+          <script type="text/javascript" src= '/static/script/js/highcharts-more.js'></script>
+          <script type="text/javascript" src= '/static/script/js/modules/drilldown.js'></script>
+          <style type="text/css">
+               .con{
+                    width: 900px;
+                    height: 600px;
+                    position: absolute;
+                    margin: auto;
+                    top: 0px;
+                    left: 0px;
+                    right: 0px;
+                    bottom: 0px;
+               }
+          </style>
+          <script type="text/javascript">
+               function LoadDrilldown(chart, obj){
+
+               }
+               $(document).ready(function(){
+
+                    var $container= $('.con');
+                    var gObj= undefined;
+                    $container.highcharts({
+                         chart: {
+                              type: 'bar',
+                              events: {
+                                   drilldown: function(e){
+                                        console.log(e);
+                                        if(!e.seriesOptions){
+                                             var chart= this;
+                                             var series= drilldata[e.point.name];
+                                             chart.addSeriesAsDrilldown(e.point, series);
+                                        }
+                                   }
+                              }
+                         },
+                         title: {
+                              text: 'nba stats'
+                         },
+                         xAxis: {
+                              type: 'category'
+                         },
+                         yAxis: {
+                              min: 10000,
+                              minRange: 50000
+                         },
+                         loading: {
+                              labelStyle: {
+                                   color: '#FCAC15',
+                                   fontSize: '2em',
+                                   fontFamily: 'Helvetica'
+                              },
+                              style: {
+                                   opacity: 1
+                              }
+                         },
+                         series: [],
+                         drilldown: {
+                              series: []
+                         }
+                    });
+                    var chart= $container.highcharts();
+                    var drilldata= {};
+                    chart.showLoading('loading stats...');
+                    $.get('/ajaxother/', function(data, status){
+                         if(status== 'success'){
+                              try{
+                                   var obj= JSON.parse(data);
+                                   console.log(obj);
+                                   chart.hideLoading();
+                                   var data= [];
+                                   var drilldown= [];
+                                   var head= obj.head;
+                                   for(var i= 0; i< obj.data.length; i++){
+                                        data.push({
+                                             name: obj.data[i][head.name],
+                                             y: parseInt(obj.data[i][head.y]),
+                                             drilldown: true
+                                        });
+                                        var t= {};
+                                        t.data= [];
+                                        for(var j= 0; j< head.dname.length; j++){
+                                             var d= {};
+                                             d.name= head.dname[j];
+                                             d.y= parseInt(obj.data[i][head.dname[j]]);
+                                             if(d.name!= 'rate')
+                                                  t.data.push(d);
+                                        }
+                                        t[head.name]= obj.data[i][head.name];
+                                        drilldata[t[head.name]]= t;
+                                   }
+                                   chart.addSeries({
+                                        name: head.y,
+                                        data: data
+                                   });
+                              }catch(e){
+                                   alert(e);
+                                   alert('数据读取失败!')
+                                   chart.hideLoading();
+                              }
+
+                         }else{
+                              alert('获取数据失败');
+                              chart.hideLoading();
+                         }
+                    });
+               });
+          </script>
+     </head>
+     <body>
+          <div class= 'con'>
+          </div>
+     </body>
+</html>

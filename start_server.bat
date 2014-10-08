@@ -1,0 +1,3 @@
+echo starting...
+python manage.py runserver
+pause

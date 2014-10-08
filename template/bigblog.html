@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% block extrahead %}
+    <title>Blog</title>
+   <script type="text/javascript">
+      function ShareToSinaWeibo(title){
+          var f="http://v.t.sina.com.cn/share/share.php?";
+          var u=document.location;
+          var p=['&url=',encodeURIComponent(u),'&title=',encodeURIComponent(title),'&content=','gb2312','&pic=',encodeURIComponent('')].join('');
+          function a(){
+              if(!window.open([f,p].join(''),'mb', ['toolbar=0,status=0,resizable=1,width=440,height=430,left=',
+              (screen.width- 440)/2,',top=',(screen.height-430)/2].join(''))){                 
+                  u.href=[f,p].join('');
+              }
+          }; 
+          if(/Firefox/.test(navigator.userAgent)){           
+              setTimeout(a,0);
+          }else{        
+              a();
+          } 
+      }
+      $(document).ready(function(){
+         var $bigblog_content= $('.bigblog_article');
+         $bigblog_content.get(0).innerHTML= $bigblog_content.text();
+         var $sharetoweibobtn= $('#bigblog_weibo');
+         $sharetoweibobtn.click(function(){
+               ShareToSinaWeibo($('.bigblog_title').text());
+         });
+
+         var $searchbtn= $('.searchbtn');
+         var $input= $('input:text');
+         $searchbtn.unbind('click');
+         $searchbtn.click(function(e){
+             var event= e|| window.event;
+             var $this= $(this);                    
+             var text= $input.val()|| '';
+             window.open('/search/?keyword='+ text+ '&from=blog');
+         });
+     
+         var $subsearchbtn= $('.subsearchbtn');
+         var $subinput= $('.subinput');
+         $subsearchbtn.unbind('click');
+         $subsearchbtn.click(function(){            
+            var $this= $(this); 
+            var text= $subinput.val()|| '';
+            window.open('/search/?keyword='+ text+ '&from=blog');
+         });
+      });
+   </script>
+   <style type="text/css">
+      .wrapper{
+         width: 100%;
+         padding: 0 5%;
+         position: relative;
+         margin-bottom: 50px;
+      }
+      .bigblog_title{
+         text-align: center;
+         font-weight: bolder;
+         font-size: 2em;
+      }
+      .bigblog_date{
+         text-align: center;
+         margin-bottom: 30px;
+      }
+      .bigblog_article{
+         margin-bottom: 30px;
+      }
+      .bigblog_article img{
+         max-width: 100%;
+      }
+      .bigblog_sharebtn{
+         display: block;
+         margin: 0 auto;
+         margin-bottom: 20px;
+         background-color: #F7C263;
+         font-family: helvetica, Microsoft Yahei;
+         color: white;
+         padding: 10px;
+         border: none;
+         border-radius: 8px;
+         outline: none;
+      }
+      .bigblog_returnbtn{
+         display: block;
+         background-color: #F7C263;
+         font-family: helvetica, Microsoft Yahei;
+         color: white;
+         padding: 10px;
+         border: none;
+         border-radius: 8px;
+         outline: none;
+         width: 50px;
+         position: relative;
+         margin-top: 10px;
+         margin-left: 5%;
+      }
+   </style>
+{% endblock %}
+
+{% block extracontent %}
+   <div class= 'wrapper'>
+      <a class= 'bigblog_returnbtn' href= '/blog/?page={{page}}'>返回</a>
+      <section>
+         <p class= 'bigblog_title'>{{blog.title}}</p>
+         <p class= 'bigblog_date'>{{blog.date}}</p>
+         <article class= 'bigblog_article'>
+            {{blog.content}}
+         </article>       
+          {% ifnotequal previd -1 %}
+              <a href= '/bigblog/{{previd}}/' id= 'bigill_previll' class= 'bigblog_sharebtn' style= 'float: left;'>上一篇</a>
+          {% endifnotequal %}
+          {% ifnotequal nextid -1 %}
+              <a href= '/bigblog/{{nextid}}/' id= 'bigill_nextill' class= 'bigblog_sharebtn' style= 'float: right;'>下一篇</a>
+          {% endifnotequal %}
+          <div style= 'clear: both;'></div>
+         <button id= 'bigblog_weibo' class= 'bigblog_sharebtn'>Share to Weibo</button>
+         <button id= 'myshare_weixin' class= 'bigblog_sharebtn'>Share to Weixin</button>
+      </section>
+      {% include 'sharetoweixin.html' %}
+   </div>
+{% endblock %}

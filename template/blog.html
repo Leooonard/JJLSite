@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load pagination_tags %}
+
+{% block extrahead %}
+   <title>Blog</title>
+   <script type="text/javascript">
+      $(document).ready(function(){        
+         var $introtext= $('.blog_introtext');
+         $introtext.each(function(){
+            var $this= $(this);       
+            var regx= /&lt;mybr&gt;/;
+            var result= regx.exec($this.html());
+            while(result){                   
+               var html= $this.get(0).innerHTML;
+               html= html.replace(result[0], '</br>');
+               $this.get(0).innerHTML= html;
+               result= regx.exec($this.html());
+            }
+         });
+         
+         var $searchbtn= $('.searchbtn');
+         var $input= $('input:text');
+         $searchbtn.unbind('click');
+         $searchbtn.click(function(e){
+             var event= e|| window.event;
+             var $this= $(this);                    
+             var text= $input.val()|| '';
+             window.open('/search/?keyword='+ text+ '&from=blog');
+         });
+
+         var $subsearchbtn= $('.subsearchbtn');
+         var $subinput= $('.subinput');
+         $subsearchbtn.unbind('click');
+         $subsearchbtn.click(function(){            
+            var $this= $(this); 
+            var text= $subinput.val()|| '';
+            window.open('/search/?keyword='+ text+ '&from=blog');
+         });
+      });
+   </script>
+   <style type="text/css">
+      .wrapper{
+         width: 100%;
+         padding-left: 10%;
+      }
+      article{
+         margin-bottom: 40px;
+      }
+      a:hover{
+         text-decoration: none;
+      }
+      .blog_head{
+         margin-bottom: 20px;
+      }
+      .blog_date{
+         font-size: 0.8em;
+      }
+      .blog_title{
+         font-size: 1.3em;
+         font-weight: bolder;
+      }
+      .blog_introtext{
+         font-size: 1em;
+      }
+      .blog_introimg{
+         max-width: 100%;
+      }
+      hr{
+         height:1px;
+         border:none;
+         border-top:1px dashed #0066CC;
+      }
+      @media screen and (max-aspect-ratio: 1/1){
+         .wrapper{
+            padding: 0 15px;
+         }
+      }
+   </style>
+{% endblock %}
+
+{% block extrapagination %}
+      {% autopaginate bloglist 5 %}
+      {% paginate %}
+{% endblock %}
+
+{% block extracontent %}
+   <div class= 'wrapper'>
+      {% autopaginate bloglist 5 %}
+      {% for blog in bloglist %}
+         <article>
+            <p class= 'blog_head'>
+               <span class= 'blog_date'>{{blog.date}}</span>
+               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+               <a href= '/bigblog/{{blog.id}}/'>
+                  <span class= 'blog_title'>
+                     {{blog.title}}
+                  </span>
+               </a>
+               {% if blog.sticktop %}
+                  <img src="/static/image/top.png" height= '10px'>
+               {% endif %}
+            </p>
+            {% for introduction in introductionlist %}
+               {% ifequal forloop.counter forloop.parentloop.counter %}
+                  <p class= 'blog_introtext'>{{introduction.text}}</p>
+                  {% if introduction.img %}
+                     <img src="{{introduction.img}}" class= 'blog_introimg'>
+                  {% endif %}
+               {% endifequal %}
+            {% endfor %}
+         </article>
+      {% endfor %}
+   </div>
+{% endblock %}

@@ -1,0 +1,190 @@
+.queryinfo{
+	font-size: 14px;
+	float: left;
+}
+.queryinfo .sstrong{
+	margin: 0 2px;
+	color: #00d683;
+	font-weight: normal;
+}
+.queryinfo .roo{
+	font-weight: bold;
+	color : #fff55a;
+	float: left;
+	padding: 0 3px;
+	margin: 2px 5px;
+	border: 2px solid #05295a;
+	white-space:nowrap;
+}
+.stat_box{
+	float: left;
+}
+.stat_box table a{
+	font-weight: bold;
+}
+.stat_box table.chooser2{
+	font-size: 14px;
+	border-collapse: collapse;
+	border-spacing: 0;
+	border:3px solid #05295a;
+	color:#009cff;
+	background: #010713;
+}
+.stat_box table.chooser2 thead{
+	border:3px solid #05295a;
+}
+.stat_box table.chooser2 tr{
+	border:0px solid #05295a;
+}
+.stat_box table.chooser2 th{
+	width: 100px;
+	border: 0;
+}
+.stat_box table.stat_box{
+	width: 960px;
+	font-size: 12px;
+	border-collapse: collapse;
+	border-spacing: 0;
+	border:3px solid #05295a;
+	color:#009cff;
+	background: #010713;
+}
+.stat_box tr.split{
+}
+.stat_box td{
+	text-align: center;
+	border:3px solid #05295a;
+	font-weight: normal;
+}
+.stat_box th{
+	cursor: pointer;
+	height: 20px;
+	border:3px solid #03284e;
+	color: wheat;
+}
+.stat_box .thcurrent{
+	cursor: pointer;
+	height: 20px;
+	border:3px solid #03284e;
+	background-image:url(./th_current.png);
+	color:#00d683;
+}
+.stat_box th.current{
+	background-image:url(./th_current.png);
+	color:#00d683;
+}.stat_box .thnormal{
+	cursor: pointer;
+	height: 20px;
+	border:3px solid #03284e;
+	color: wheat;
+	background-image:url(./th.png);
+}.stat_box th.normal{
+	background-image:url(./th.png);
+}.stat_box th.head{
+	background-image:url(./th.png);
+}
+
+.stat_box td.current{
+	color:#00d683 !important; 
+	font-weight: bold;
+}
+.stat_box td.current a{
+	color:#00d683 !important; 
+	font-weight: bold;
+}
+
+.stat_box td.pts, td.trb , td.usgper, td.ws, td.per, td.fgper0, td.fgper1, td.fgper2, td.fgper3, td.fgper4,td.ast ,th.pts, th.trb ,th.ast, th.usgper, th.ws, th.per, th.fgper0, th.fgper1, th.fgper2, th.fgper3, th.fgper4{
+	color: #fff55a;
+}
+
+.stat_box .arrow{
+	margin-left: 3px;
+}
+
+.stat_box div.chooser{
+	float: left;
+	height: 60px;
+}
+.stat_box div.chooser a{
+	width:100px;
+	height: 54px;
+	line-height: 54px;
+	display: block;
+	text-align: center;
+	font-weight: bold;
+	cursor: pointer;
+}
+.stat_box div.chooser a:hover{
+}
+.stat_box div.chooser a.down{
+}
+.stat_box div.chooser a.season{
+	background-image:url(./season.png);
+}
+.stat_box div.chooser a.season:hover{
+	background-image:url(./season_hover.png);
+}
+.stat_box div.chooser a.season_down{
+	width:130px;
+	height: 60px;
+	line-height: 60px;
+	background-image:url(./season_down.png);
+}
+.stat_box div.chooser a.playoff{
+	background-image:url(./playoff.png);
+}
+.stat_box div.chooser a.playoff:hover{
+	background-image:url(./playoff_hover.png);
+}
+.stat_box div.chooser a.playoff_down{
+	width:130px;
+	height: 60px;
+	line-height: 60px;
+	background-image:url(./playoff_down.png);
+}
+.stat_box div.chooser a.allstar{
+	background-image:url(./allstar.png);
+}
+.stat_box div.chooser a:hover.allstar{
+	background-image:url(./allstar_hover.png);
+}
+.stat_box div.chooser a.allstar_down{
+	width:130px;
+	height: 60px;
+	line-height: 60px;
+	background-image:url(./allstar_down.png);
+}
+.stat_box div.sorryInfo a{
+	height: 20px;
+	line-height: 20px;
+	display: block;
+	text-align:left;
+	width:940px;
+	font-size: 15px;
+	color:#fff55a;
+}
+.stat_box div.sorryInfo {
+	float: left;
+	margin: 1px 2px;
+	border:3px solid #0a3671;
+	width:940px;
+	height:20px;
+}
+.stat_box .page{
+	margin: 3px 5px;
+	float: left;
+	width: 60px;
+	height: 20px;
+	background-image:url(./page.png);
+	font-size: 14px;
+	float: right;
+	color: #00d6ff;
+	text-decoration: none;
+}
+.stat_box .page:hover{
+	background-image:url(./page_hover.png);
+	text-decoration: none;
+}
+.stat_box td a{
+	color:inherit;
+}

@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+
+{% block extrahead %}
+    <title>Illustration</title>
+   <style type="text/css">
+      .prevbtn{
+          display: block;
+      }
+      .nextbtn{
+          display: block;
+      }
+      .wrapper{
+         width: 100%;
+         min-width: 400px;
+         /*这里本来使用margin-bottom. 但是在IE8下表现不正常, 因此改为padding-bottom*/
+         padding-bottom: 50px;
+         position: relative;
+      }
+      .bigill_illustration{
+         width: 70%;
+         margin: 0 auto;
+         margin-bottom: 50px;
+      }
+      .bigill_illtext{
+         width: 70%;
+         margin: 0 auto;
+         margin-bottom: 50px;
+      }
+      .bigill_illtext p{
+         text-align: center;
+         font-size: 1.3em;
+         font-family: helvetica, Microsoft Yahei;
+      }
+      .bigill_sharebtn{
+        /*IE下margin: 0  auto;无效, 所以改为用父元素的text-align实现. 以后注意, 如果是行内元素, 尽量使用text-align进行居中.*/
+         background-color: #F7C263;
+         font-family: helvetica, Microsoft Yahei;
+         color: white;
+         padding: 10px;
+         border: none;
+         border-radius: 8px;
+         outline: none;
+      }
+   </style>
+   <script type="text/javascript" src= '/static/script/clone.js'></script>
+   <script type="text/javascript">
+      var NEXTWRAPPER_ARRIVED= false;
+      var PREVWRAPPER_ARRIVED= false;
+      var CURRENT_PAGE= 0;
+
+      function ShareToSinaWeibo(title){
+          var f="http://v.t.sina.com.cn/share/share.php?";
+          var u=document.location;
+          var p=['&url=',encodeURIComponent(u),'&title=',encodeURIComponent(title),'&content=','gb2312','&pic=',encodeURIComponent('')].join('');
+          function a(){
+              if(!window.open([f,p].join(''),'mb', ['toolbar=0,status=0,resizable=1,width=440,height=430,left=',
+              (screen.width- 440)/2,',top=',(screen.height-430)/2].join(''))){                 
+                  u.href=[f,p].join('');
+              }
+          }; 
+          if(/Firefox/.test(navigator.userAgent)){           
+              setTimeout(a,0);
+          }else{        
+              a();
+          } 
+      }
+      $(document).ready(function(){
+            var $sharetobtn= $('#bigill_weibo');
+            $sharetobtn.click(function(){
+                  ShareToSinaWeibo($('.bigill_illtext p').text());
+            });
+
+            var $searchbtn= $('.searchbtn');
+            var $input= $('input:text');
+            $searchbtn.unbind('click');
+            $searchbtn.click(function(e){
+                var event= e|| window.event;
+                var $this= $(this);                    
+                var text= $input.val()|| '';
+                window.open('/search/?keyword='+ text+ '&from=illustration');
+            });
+
+           var $subsearchbtn= $('.subsearchbtn');
+           var $subinput= $('.subinput');
+           $subsearchbtn.unbind('click');
+           $subsearchbtn.click(function(){            
+              var $this= $(this); 
+              var text= $subinput.val()|| '';
+              window.open('/search/?keyword='+ text+ '&from=illustration');
+           });
+
+           $returnbtn= $('.return');
+           $returnbtn.css('display', 'block');
+           $returnbtn.attr('data-url', '/illustration/?page={{page}}');
+           $returnbtn.click(function(){
+                window.location.href= $(this).attr('data-url');
+           });
+
+           var $topanchor= $('.topanchor');
+           $topanchor.css('display', 'block');
+           $topanchor.css('bottom', '50px');
+
+           var clonehelper= new window.clonehelper();
+           // 复制主体容器.
+           // 这里因为在函数内, 所以需要声明为全局变量.
+           $wrapper= $('.wrapper');
+           $prevbtn= $('.prevbtn');
+           $prevbtn.bind('click', clonehelper.prevloading);
+          $nextbtn= $('.nextbtn');
+          $nextbtn.bind('click', clonehelper.nextloading);
+
+          // 为左右键注册事件, 使得用户可以通过左右键持续浏览图片.
+          // 返回键只有keydown可以抓住, keyup抓不到返回键, 会直接返回
+          $(document).keydown(function(e){
+              var event= e|| window.event;
+              if(event.which== 8){
+                  if($returnbtn.attr('disabled')== undefined){
+                      $returnbtn.trigger('click');
+                  }
+                  return false;
+              }
+          });
+          $(document).keyup(function(e){
+              var event= e|| window.event;
+              if(event.which== 37){
+                  // 有上一张时才触发!
+                  if($prevbtn.css('display')!= 'none'){
+                      $prevbtn.trigger('click');
+                  }
+              }
+              if(event.which== 39){
+                  // 有下一张时才触发!
+                  if($nextbtn.css('display')!= 'none'){
+                      $nextbtn.trigger('click');
+                  }
+              }
+          });
+
+           // 开始复制对象.
+           $prevwrapper= undefined;
+           $nextwrapper= undefined;
+           clonehelper.cloneillustration($wrapper, function(){
+              $prevbtn.css('display', 'none');
+           }, function(copy){
+              $prevwrapper= copy;
+              window.PREVWRAPPER_ARRIVED= true;
+              if(window.NEXTWRAPPER_ARRIVED== true&& window.PREVWRAPPER_ARRIVED== true){
+                  $prevbtn.unbind('click');
+                  $prevbtn.bind('click', clonehelper.prev);
+                  $nextbtn.unbind('click');
+                  $nextbtn.bind('click', clonehelper.next);
+              }
+           }, function(){
+              $nextbtn.css('display', 'none');
+           }, function(copy){
+              $nextwrapper= copy;
+              window.NEXTWRAPPER_ARRIVED= true;
+              if(window.NEXTWRAPPER_ARRIVED== true&& window.PREVWRAPPER_ARRIVED== true){
+                  $prevbtn.unbind('click');
+                  $prevbtn.bind('click', clonehelper.prev);
+                  $nextbtn.unbind('click');
+                  $nextbtn.bind('click', clonehelper.next);
+              }
+           });
+
+      });
+   </script>
+{% endblock %}
+
+{% block extracontent %}
+   <div class= 'wrapper' data-id= '{{image.id}}'>
+      <article class= 'bigill_illustration'>
+         <img src="/ueupload/{{image.path}}" width= '100%'>
+      </article>
+      <article class= 'bigill_illtext'>
+         <p>
+            {{image.text}}
+         </p>
+      </article>
+      <div style= 'text-align: center;'>
+        <button id= 'bigill_weibo' class= 'bigill_sharebtn'>Share to Weibo</button>
+        <button id= 'myshare_weixin' class= 'bigill_sharebtn'>Share to Weixin</button>
+      </div>
+      {% include 'sharetoweixin.html' %}
+   </div>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'admin/change_form.html' %}
+
+
+{% block extrahead %}
+      {{block.super}}
+      <script type="text/javascript" src= "/static/script/jquery-1.11.1.min.js"></script>
+      <script type="text/javascript">
+            window.UEDITOR_HOME_URL= '/ue/';
+      </script>
+      <!-- 配置文件 -->
+      <script type="text/javascript" src="/ue/ueditor.config.js"></script>
+      <!-- 编辑器源码文件 -->
+      <script type="text/javascript" src="/ue/ueditor.all.js"></script>
+      <script type="text/javascript" src= '/static/script/uploader.js'></script>
+      <script type="text/javascript">
+            $(document).ready(function(){
+                  var EVERYTHING_ALL_RIGHT= true;
+                  var ERROR_TIP= '';
+
+                  var $text= $('textarea');
+                  var content= $text.text();
+                  for(var i= 0; i< 3; i++){
+                        $text.before($('</br>'));
+                  }
+                  var id= $text.attr('id');
+                  var ue= new baidu.editor.ui.Editor({
+                        toolbars: [[
+                               'undo', 'redo', '|', 'bold', 'formatmatch', '|', 'selectall',  '|',
+                              'fontfamily', 'fontsize', '|', 'cleardoc',  'forecolor',   
+                              'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'link' 
+                              , 'emotion', '|', 'date', 'time', '|', 'preview', 'searchplace', 'li neheight'
+                        ]],
+                        serverUrl: '/ueditor/blogger/'
+                  });
+                  ue.render(id);
+                  // ue.setContent(content|| '');
+
+
+                  // 开始处理上传文件.
+                  var uploadHelper= new window.UploadHelper();
+                  var $input= $('input:file');
+                  if(uploadHelper.useable){
+                        uploadHelper.initArgs({
+                              'size': 204800,
+                              'type': 'image',
+                              'suffixArray': ['jpg', 'png', 'gif']
+                        });
+                  }else{
+                        // false 说明只能进行后缀名检查.
+                        uploadHelper.initArgs({
+                              'suffixArray': ['jpg', 'png', 'gif']
+                        });
+                        alert('受浏览器限制, 将只执行文件名后缀检查, 请大宝贝仔细核对所上传文件的格式, 大小!');
+                  }
+                  uploadHelper.addListener($input);
+                  uploadHelper.setErrorCallback(function(errorTip){
+                        EVERYTHING_ALL_RIGHT= false;
+                        ERROR_TIP= errorTip;
+                        alert(errorTip);
+                  });
+                  uploadHelper.setSuccessCallback(function(successTip){
+                        EVERYTHING_ALL_RIGHT= true;
+                        alert(successTip);
+                  });
+
+                  var $save= $("input:submit");
+                  $save.click(function(){
+                        if(!EVERYTHING_ALL_RIGHT){
+                              alert(ERROR_TIP);
+                              return false;
+                        }
+                  });
+            });
+      </script>
+{% endblock %}

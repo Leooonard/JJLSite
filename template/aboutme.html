@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+
+{% block extrahead %}
+      <title>About me</title>
+      <script type="text/javascript" src= '/ue/ueditor.parse.js'></script>
+      <script type="text/javascript">           
+            $(document).ready(function(){                 
+                  (function(){
+                        var $content= $('.aboutme_content');
+                        var text= $content.text();
+                        $content.empty();
+                        $content.append($(text));
+                  })();
+            });
+      </script>
+      <style type="text/css">
+            .aboutme_wrapper{
+                width: 100%;
+                padding-left: 10%;
+            }
+            .aboutme_head{
+                width: 60%;                         
+            }
+            .aboutme_contentwrapper{
+                width: 100%;
+                margin-top: 20px;
+            }
+            .aboutme_content p{
+                white-space: normal;
+                /*让文本自动换行的设置!*/
+                word-wrap: break-word;
+            }
+            @media screen and (max-aspect-ratio: 1/1){
+                .aboutme_wrapper{
+                    padding-left: 0px;
+                    padding: 0 10px;
+                }
+                .aboutme_head{
+                    margin: 0 auto;
+                }
+            }
+      </style>
+{% endblock %}
+
+{% block extracontent %}
+      <section class= 'aboutme_wrapper'>
+            <section class= 'aboutme_head'>
+                  <img src="{{headphoto}}" width= '100%'>
+            </section>
+            <section class= 'aboutme_contentwrapper'>
+                  <article class= 'aboutme_content'>
+                        {{selfintroduction}}
+                  </article>
+            </section>
+      </section>
+{% endblock %}

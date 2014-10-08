@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+   <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+   <meta name="description" content="标准html格式">
+   <meta name="keywords" content="标准html格式">
+   <title>标准html格式</title>
+   <link rel="shortcut icon" href="image/favicon.ico"/>
+   <script type="text/javascript" src= "/static/script/jquery-1.11.1.min.js"></script>
+   <script type="text/javascript" src= "/static/script/uploader.js"></script>
+   <script type="text/javascript">
+        $(document).ready(function(){
+            var $submitbtn= $('#submitbtn');
+            $submitbtn.click(function(){
+              var date= new Date();
+              alert(date.getHours()+ ':'+ date.getMinutes()+ ':'+ date.getSeconds());
+            });
+            var uploadHelper= new window.UploadHelper();
+            if(uploadHelper.useable){
+                var $imageUploader= $("#imageUploader");
+                uploadHelper.initArgs({
+                    // 'type': 'image',
+                    // 'suffixArray': ['jpg', 'gif'],
+                    'showcaseImg': $('#showcaseImage')
+                });
+                uploadHelper.addListener($imageUploader);
+                uploadHelper.setErrorCallback(function(error){
+                    var $errorTip= $('.errorTip');
+                    $errorTip.css('display', 'block');
+                    $errorTip.text(error);
+                });
+                uploadHelper.setProgressCallback(function(progress){
+                    var $progressLabel= $('#progressLabel');
+                    $progressLabel.text('已完成: '+ progress+ '%');
+                });
+
+            }else{
+                $(".readerTip").css("display", "block");
+            }
+        });
+   </script>
+   <style type="text/css">
+        .readerTip{
+            display: none;
+            color: red;
+            font-family: Microsoft Yahei;
+        }
+        .errorTip{     
+            display: none;
+            color: red;
+            font-family: Microsoft Yahei;
+        }
+   </style>
+</head>
+<body>
+   <div>
+        <form method= "POST" action= "/doupload/" enctype="multipart/form-data">       
+            <p class= "readerTip">浏览器版本过低, 不支持部分功能.</p>
+            <p class= "errorTip"></p>
+            {# 没有name属性会出问题. #}
+            文件名: <input type= "text" name= "name"></br>
+            分类: <input type= "text" name= "collect"></br>
+            图片: <input type= "file" name= "file" id= "imageUploader"></br>
+            <input type= "submit" id= "submitbtn"></br>
+            <img src="#" height= "100px" width= "100px" id= "showcaseImage">
+            <label id= "progressLabel"></label>
+        </form>
+   </div>
+</body>
+</html>

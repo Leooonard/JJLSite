@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+   <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+   <meta name="description" content="error">
+   <meta name="keywords" content="error">
+   <link rel="shortcut icon" href="image/favicon.ico"/>
+   <link rel="stylesheet" href="/static/css/bootstrap.css" type="text/css">
+   <script type="text/javascript" src="/static/script/jquery-1.11.1.min.js"></script>
+   <style type="text/css">
+      .row{
+         margin-top: 5%;
+      }
+      .content, .content *{
+         text-align: center;
+         font-weight: bolder;
+         font-size: 1.4em;
+         font-family: helvetica, Microsoft Yahei;
+         color: #DD8858;
+      }
+   </style>
+   {% block extrahead %}
+   {% endblock %}
+</head>
+<body>
+   <div class= 'container'>
+      <div class= 'row'>        
+         <section class= 'col-sm-4'></section>
+         <section class= 'col-sm-4'>
+            <img src="/static/image/wrongpage.gif/" width= '100%'>
+         </section>
+         <section class= 'col-sm-4'></section>
+      </div>
+      <div class= 'row content'>
+         {% block extracontent %}
+         {% endblock %}
+      </div>
+      <div class= 'row content'>
+         {{content}}
+      </div>
+   </div>
+</body>
+</html>

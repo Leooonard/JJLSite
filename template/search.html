@@ -1,0 +1,285 @@
+{% extends 'base.html' %}
+{% load pagination_tags %}
+
+{% block extrahead %}
+    <title>Search</title>
+   <style type="text/css">
+      .wrapper{
+         width: 98%;
+         padding-right: 2%;
+         min-width: 400px;
+      }
+      .resultlength{
+        margin-left: 40px;
+        margin-bottom: 20px;
+        color: #EA68A2;
+        font-size: 1.8em;
+      }
+      .colomn{
+         width: 17%;
+         margin-left: 3%;
+         float: left;
+      }
+      article{
+         margin-bottom: 40px;
+         overflow: hidden;
+         position: relative;
+         width: 100%;
+         height: 160px;
+      }
+      .imagemask{
+          width: 100%;
+          height: 100%;
+          display: none;
+          position: absolute;
+          left: 0px;
+          top: 0px;
+      }
+      .maskword{
+          position: absolute;
+          width: 100%;
+          text-align: center;
+          display: none;
+          left: 0px;
+          top: 50%;
+          margin-top: -2em;
+          color: white;
+      }
+      .resulttitle{
+          font-size: 1.5em !important;
+      }
+      @media screen and (max-width: 1000px) and (min-width: 800px) and (min-aspect-ratio: 1/1){
+          .colomn{
+              width: 45%;
+              margin-left: 5%;
+          }
+          article{
+              height: 350px;
+          }
+      }
+      @media screen and (max-width: 800px) and (min-aspect-ratio: 1/1){
+          .wrapper{
+              min-width: 500px;
+          }
+          .colomn{
+              width: 90%;
+              margin-left: 5%;
+          }
+          article{
+              height: 500px;
+          }
+      }
+      @media screen and (max-aspect-ratio: 1/1){
+          .wrapper{
+              min-width: 300px;
+              padding-right: 0px;
+              width: 100%;
+          }
+          .colomn{
+              width: 90%;
+              margin: 0 5%;
+          }
+          article{
+              height: 380px;
+          }
+      }
+   </style>
+   <script type="text/javascript" src= '/static/script/jquery.scrollLoading.js'></script>
+   <script type="text/javascript">
+      $(document).ready(function(){
+         $('.scrollloading').scrollLoading();
+          var $article= $('article');
+          $article.mouseenter(function(e){
+              var event= e|| window.event;
+              var $this= $(this);
+              var $mask= $this.find('span.imagemask');
+              var $maskword= $this.find('span.maskword');
+              $mask.css('display', 'block');
+              // random出来的范围0-1 不包括1!!!
+              $mask.css('background-color', MASK_COLOR[parseInt(5* Math.random())]);
+              $mask.css('opacity', 0);
+              $mask.stop();
+              $mask.animate({
+                  opacity: 1
+              }, 300, function(){
+                  $maskword.css('display', 'block');
+              });
+          });
+          $article.mouseleave(function(e){
+              var event= e|| window.event;
+              var $this= $(this);
+              var $mask= $this.find('span.imagemask');
+              var $maskword= $this.find('span.maskword');
+              $mask.stop();           
+              $mask.animate({
+                  opacity: 0
+              }, 300, function(){
+                  $mask.css('display', 'none');
+              });
+              $maskword.css('display', 'none');
+          });
+          var $maskword= $('.maskword');
+          $maskword.each(function(){
+              $this= $(this);
+              var regx= /&lt;mytag&gt;(.*?)&lt;\/mytag&gt;/;
+              var result= regx.exec($this.html());
+              while(result){                   
+                  var html= $this.get(0).innerHTML;
+                  html= html.replace(result[0], '<b><i style= "color: #6CFF69;">'+ result[1]+ '</i></b>');
+                  $this.get(0).innerHTML= html;
+                  result= regx.exec($this.html());
+              }
+          });
+          var $resulttitle= $('.resulttitle');
+          $resulttitle.each(function(){
+              $this= $(this);
+              var regx= /&lt;mytag&gt;(.*?)&lt;\/mytag&gt;/;
+              var result= regx.exec($this.html());
+              while(result){                   
+                  var html= $this.get(0).innerHTML;
+                  html= html.replace(result[0], '<b><i style= "color: #6CFF69;">'+ result[1]+ '</i></b>');
+                  $this.get(0).innerHTML= html;
+                  result= regx.exec($this.html());
+              }            
+          });
+      });
+   </script>
+{% endblock %}
+
+{% block extrapagination %}
+    {% autopaginate resultlist 15 %}
+    {% paginate %}
+{% endblock %}
+
+{% block extracontent %}
+   <section class= 'wrapper'>
+      <p class= 'resultlength'>"{{resultlength}}" search results</p>
+      {% autopaginate resultlist 15 %}
+         <section class= 'colomn colomn-0'>
+          {% for result in resultlist %}
+            {% if forloop.counter|add:'4'|divisibleby:'5' %}
+               <article class= 'searchresult'>
+                  {% if result.text %}
+                     {# 说明是图片. #}     
+                     <a href="/bigillustration/{{result.id}}/">                    
+                         <img src="/static/image/pixel.png" width= '100%' style= 'background: url(/static/image/loading.gif/) no-repeat center;'
+                                     data-url= '/ueupload/{{result.path}}' class= 'scrollloading'>
+                         <span class= 'imagemask'></span>
+                         <span class= 'maskword'>
+                             by : {{result.date}}</br>
+                             {{result.text}}
+                         </span>
+                     </a>               
+                  {% else %}
+                     {# 说明是博客. #}
+                     <a href="/bigblog/{{result.id}}/">                      
+                          <p class= 'resulttitle'>{{result.title}}</p>
+                     </a>
+                  {% endif %}
+               </article>
+            {% endif %}
+          {% endfor %}
+         </section>
+        <section class= 'colomn colomn-1'>
+          {% for result in resultlist %}
+            {% if forloop.counter|add:'3'|divisibleby:'5' %}
+               <article class= 'searchresult'>
+                  {% if result.text %}
+                     {# 说明是图片. #}     
+                     <a href="/bigillustration/{{result.id}}/">                 
+                       <img src="/static/image/pixel.png" width= '100%' style= 'background: url(/static/image/loading.gif/) no-repeat center;'
+                                   data-url= '/ueupload/{{result.path}}' class= 'scrollloading'>
+                       <span class= 'imagemask'></span>
+                       <span class= 'maskword'>
+                           by : {{result.date}}</br>
+                           {{result.text}}
+                       </span>
+                     </a>         
+                  {% else %}
+                     {# 说明是博客. #}
+                     <a href="/bigblog/{{result.id}}/">                      
+                          <p class= 'resulttitle'>{{result.title}}</p>
+                     </a>
+                  {% endif %}
+               </article>
+            {% endif %}     
+          {% endfor %} 
+        </section>
+        <section class= 'colomn colomn-2'>
+          {% for result in resultlist %}
+            {% if forloop.counter|add:'2'|divisibleby:'5' %}
+               <article class= 'searchresult'>
+                  {% if result.text %}
+                     {# 说明是图片. #}      
+                     <a href="/bigillustration/{{result.id}}/">                
+                       <img src="/static/image/pixel.png" width= '100%' style= 'background: url(/static/image/loading.gif/) no-repeat center;'
+                                   data-url= '/ueupload/{{result.path}}' class= 'scrollloading'>
+                       <span class= 'imagemask'></span>
+                       <span class= 'maskword'>
+                           by : {{result.date}}</br>
+                           {{result.text}}
+                       </span>
+                     </a>         
+                  {% else %}
+                     {# 说明是博客. #}
+                     <a href="/bigblog/{{result.id}}/">                      
+                          <p class= 'resulttitle'>{{result.title}}</p>
+                     </a>
+                  {% endif %}
+               </article>
+            {% endif %}  
+          {% endfor %}       
+        </section>
+        <section class= 'colomn colomn-3'>
+          {% for result in resultlist %}
+            {% if forloop.counter|add:'1'|divisibleby:'5' %}
+               <article class= 'searchresult'>
+                  {% if result.text %}
+                     {# 说明是图片. #}       
+                     <a href="/bigillustration/{{result.id}}/">               
+                       <img src="/static/image/pixel.png" width= '100%' style= 'background: url(/static/image/loading.gif/) no-repeat center;'
+                                   data-url= '/ueupload/{{result.path}}' class= 'scrollloading'>
+                       <span class= 'imagemask'></span>
+                       <span class= 'maskword'>
+                           by : {{result.date}}</br>
+                           {{result.text}}
+                       </span>
+                     </a>         
+                  {% else %}
+                     {# 说明是博客. #}
+                     <a href="/bigblog/{{result.id}}/">                      
+                          <p class= 'resulttitle'>{{result.title}}</p>
+                     </a>
+                  {% endif %}
+               </article>
+            {% endif %}     
+          {% endfor %}    
+        </section>
+        <section class= 'colomn colomn-4'>
+          {% for result in resultlist %}
+            {% if forloop.counter|divisibleby:'5' %}
+               <article class= 'searchresult'>
+                  {% if result.text %}
+                     {# 说明是图片. #}     
+                     <a href="/bigillustration/{{result.id}}/">                 
+                       <img src="/static/image/pixel.png" width= '100%' style= 'background: url(/static/image/loading.gif/) no-repeat center;'
+                                   data-url= '/ueupload/{{result.path}}' class= 'scrollloading'>
+                       <span class= 'imagemask'></span>
+                       <span class= 'maskword'>
+                           by : {{result.date}}</br>
+                           {{result.text}}
+                       </span>
+                     </a>         
+                  {% else %}
+                     {# 说明是博客. #}
+                     <a href="/bigblog/{{result.id}}/">                      
+                          <p class= 'resulttitle'>{{result.title}}</p>
+                     </a>
+                  {% endif %}
+               </article>
+            {% endif %}   
+          {% endfor %}      
+        </section>
+     <div style= 'clear: both;'></div>
+   </section>
+{% endblock %}

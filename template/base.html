@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html"; charset="UTF-8">
+        <meta name= "description" content= "">
+        <meta name= "keywords" content= "">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel= "shortcut icon" href= "/static/image/littlestar.png"/>
+        <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
+        <script src="/static/script/jquery-1.11.1.min.js"></script>    
+
+        {# 用语解决IE不识别HTML5的新标签.     #}
+        <!--[if lt IE9]> 
+            <script> 
+               (function() {
+                 if (! 
+                 /*@cc_on!@*/
+                 0) return;
+                 var e = "abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video".split(', ');
+                 var i= e.length;
+                 while (i--){
+                     document.createElement(e[i])
+                 } 
+            })() 
+            </script>
+        <![endif]-->
+
+        {# 用于解决IE不支持CSS3, media query #}
+         <!--[if lt IE 9]><script src="/static/script/css3-mediaqueries.js"></script><![endif]-->
+        <script type="text/javascript">
+            var MASK_COLOR= ['#E60012', '#FFF100', '#00A0E9', '#B8D200', '#EF94AE'];
+            var SEARCHBTN_ENABLED= false;
+
+            function ShowHiddenNavImage(that, power){           
+                    var $this= $(that);
+                    var $hidenavimg= $this.children('.hidenavimg');
+                    var $navimg= $this.children('.navimg');
+                    $hidenavimg.css('display', 'inline');
+                    var width= parseInt($this.css('width'));
+                    var height= parseInt($this.css('height'));
+                    $hidenavimg.css('height', height* 0.8 + 'px');
+                    // $hidenavimg.css('left', '35%');
+                    $hidenavimg.stop();
+                    $hidenavimg.animate({
+                        width: width* power,
+                    }, 400);
+            }
+
+            function HideHiddenNavImage(that){               
+                    var $this= $(that);
+                    var $img= $this.children('.hidenavimg');
+                    $img.stop();
+                    var width= parseInt($img.css('width'));
+                    $img.animate({
+                        width: '0px'
+                    }, 400, function(){
+                        $img.css('width', '0px');
+                        $img.css('display', 'none');
+                    });
+            }
+
+            $(document).ready(function(){          
+                var $navul= $('.navul');
+                $navul.css('left', $('nav').offset().left);
+                $navul.css('top', '60px');
+                $navul.css('width', $('nav').css('width'));
+
+                var $input= $('.input');
+                $input.keyup(function(e){
+                    var event= e|| window.event;
+                    if(event.which== 13){
+                        $searchbtn.trigger('click');
+                    }
+                });
+                $input.bind('input propertychange', function(){
+                    var $this= $(this);
+                    var text= $this.val();
+                    $.get('/ajaxsearch/?text='+ text, function(data){
+                        data= JSON.parse(data);
+                        if(data.length== 0){
+                            console.log('failed');
+                        }else{
+                            console.log(data);
+                        }
+                    });
+                });
+
+                var $searchfield= $('.searchfield');
+                $searchfield.mouseenter(function(e){
+                    var event= e|| window.event;
+                    var $this= $(this);
+                    var $btn= $this.find('img');
+                    var $input= $this.find('input');
+                    var width= parseInt($btn.css('width'));
+                    $input.stop();
+                    $input.animate({
+                        width: width* 4+ 'px'
+                    }, 400, function(){
+                        SEARCHBTN_ENABLED= true;
+                    });
+                });
+                $searchfield.mouseleave(function(e){
+                    var event= e|| window.event;
+                    var $this= $(this);
+                    var $input= $this.children('input');
+                    SEARCHBTN_ENABLED= false;
+                    $input.stop();
+                    $input.animate({
+                        width: '50%'
+                    }, 400);
+                });
+
+                var $searchbtn= $('.searchbtn');
+                $searchbtn.mouseenter(function(e){
+                    var event= e|| window.event;
+                    var $this= $(this);
+                    if(SEARCHBTN_ENABLED){
+                        $this.attr('src', '/static/image/searchoverbtn.png');
+                    }
+                });
+                $searchbtn.mouseleave(function(e){                
+                    var event= e|| window.event;
+                    var $this= $(this);
+                    if(SEARCHBTN_ENABLED){
+                        $this.attr('src', '/static/image/searchbtn.png');
+                    }
+                });
+                $searchbtn.click(function(e){
+                    var event= e|| window.event;
+                    var $this= $(this);                  
+                    if(SEARCHBTN_ENABLED){                      
+                        var text= $input.val()|| '';
+                        window.open('/search/?keyword='+ text);
+                    }  
+                });
+
+                var $bloglink= $('#bloglink');
+                var $illustrationlink= $('#illustrationlink');
+                var $aboutmelink= $('#aboutmelink');
+
+                $bloglink.mouseenter(function(e){
+                    var event= e|| window.event;
+                    ShowHiddenNavImage(this, 2.2);
+                });
+                $illustrationlink.mouseenter(function(e){
+                    var event= e|| window.event;
+                    ShowHiddenNavImage(this, 5.54);
+                });
+                $aboutmelink.mouseenter(function(e){
+                    var event= e|| window.event;
+                    ShowHiddenNavImage(this, 3.83);
+                });
+                $bloglink.mouseleave(function(e){
+                    var event= e|| window.event;
+                    HideHiddenNavImage(this);
+                });
+                $illustrationlink.mouseleave(function(e){
+                    var event= e|| window.event;
+                    HideHiddenNavImage(this);
+                });
+                $aboutmelink.mouseleave(function(e){
+                    var event= e|| window.event;
+                    HideHiddenNavImage(this);
+                });
+
+                var $subsearchbtn= $('.subsearchbtn');
+                $subsearchbtn.mouseenter(function(){
+                    var $this= $(this);
+                    $this.attr('src', '/static/image/subsearchoverbtn.png');
+                });
+                $subsearchbtn.mouseleave(function(){
+                    var $this= $(this);
+                    $this.attr('src', '/static/image/subsearchbtn.png');
+                });
+
+                var $subinput= $('.subinput');
+                $subinput.css('height', parseInt($subsearchbtn.css('width'))* (71/ 70)- 1+ 'px');
+                // 后面的操作貌似会影响上面的高度, 所以放最后做.
+                // $input.parent().css('line-height', '49px');
+
+                $subsearchbtn.click(function(){
+                    var $this= $(this); 
+                    var text= $subinput.val()|| '';
+                    window.open('/search/?keyword='+ text);
+                });
+
+                var $prev= $('.prev');
+                $prev.mouseenter(function(){
+                    var $this= $(this);
+                    $this.attr('src', '/static/image/prevhover.png');
+                });
+                $prev.mouseleave(function(){
+                    var $this= $(this);
+                    $this.attr('src', '/static/image/prev.png');
+                });
+
+                var $next= $('.next');
+                $next.mouseenter(function(){
+                    var $this= $(this);              
+                    $this.attr('src', '/static/image/nexthover.png');  
+                });
+                $next.mouseleave(function(){
+                    var $this= $(this);
+                    $this.attr('src', '/static/image/next.png');
+                });
+
+                var $topanchor= $('.topanchor');
+                $topanchor.mouseenter(function(){
+                    $topanchor.children('img').attr('src', '/static/image/topanchorhover.png');
+                });
+                $topanchor.mouseleave(function(){
+                    $topanchor.children('img').attr('src', '/static/image/topanchor.png');
+                });
+            });
+        </script>
+        <style type="text/css">
+            /*这里的html很关键!!! 否则不会100%高度.*/
+            *{
+                /*border: solid 1px black;*/
+                font-family: Helvetica, Microsoft Yahei;
+                color: #666464;
+            }
+            a:hover{
+                text-decoration: none;
+                color: white;
+            }
+            article,aside,dialog,footer,header,section,footer,nav,figure,menu{display:block}
+            html, body{
+                width: 100%;
+                height: 100%;
+                margin: 0px;
+                padding: 0px;
+                position: relative;
+                overflow: visible;
+
+                *position: relative; /*for ie*/
+                /*display: table;*/
+            }
+            header{
+                height: 5%; 
+                width: 100%; 
+                position: fixed; 
+                top: 0px; 
+                left: 0px;
+                background-color: white; 
+                z-index: 100;
+            }
+            aside{
+                position: fixed;
+                top: 5%;
+                left: 0px;
+                width: 15%;
+                height: 90%;
+                background-color: white;
+                z-index: 100;
+                padding-left: 8%;
+                min-height: 300px;
+            }
+            .iefixed{
+                _position: absolute;  
+               _clear: both;   
+               _top:expression(eval(document.compatMode &&   
+                       document.compatMode=='CSS1Compat') ?   
+                       documentElement.scrollTop   
+                       +(documentElement.clientHeight-this.clientHeight) - 1   
+                       : document.body.scrollTop   
+                       +(document.body.clientHeight-this.clientHeight) - 1); 
+            }
+            nav{
+                width: 100%;
+                height: 100%;
+                position: relative;
+            }
+            .navul{
+                list-style: none;
+                padding-top: 1px;
+                padding-left: 0px;
+                width: 100% !important;   /*这里莫名其妙有用户设定, 我不懂了!*/
+                background-color: white;
+            }
+            .navul li{
+                /*这里的50%指的是自己的宽度的50%, 为什么???.*/
+                margin-top: 30%;
+            }
+            .navlink{
+                display: block;      
+                position: relative;      
+            }
+            .navimg{
+                /*z-index: 100;*/
+                position: relative;
+                z-index: 5;
+            }
+            .hidenavimg{
+                display: none;
+                position: absolute;
+                width: 0px;
+                top: 10%;
+                left: 50%;
+                z-index: 1;    /*-1居然没被父元素遮盖?*/
+            }
+            .input{
+                position: relative;
+                width: 50%;
+                top: -5px;
+                height: 42px;
+                display: inline;
+                border-style: none;
+                padding: 0px;
+                font-size: 1.3em;
+                background: url(/static/image/inputbackground.png) repeat-x;
+                border-bottom-left-radius: 20px;
+                border-top-left-radius: 20px;
+                padding-left: 10px;
+            }
+            .input:focus{
+                outline: none;
+            }
+            .searchbtn{
+                cursor: pointer;
+                position: relative;
+                margin-left: -4px;
+                /*top: -0.15em;*/
+            }     
+            .subnavul{
+                display: none;
+                width: 100%;
+                padding-left: 0px;
+            }      
+            .subnavul li{
+                list-style: none;
+                width: 100%;
+                /*background-color: #FACDE9;*/
+                background-color: #F4B2CF;
+                border-bottom: solid 2px #FADCE9;
+                padding: 6px 0;
+            }
+            .subnavul li a{
+                color: #666464;
+            }
+            .subsearchbtn{
+                cursor: pointer;
+                position: relative;
+                z-index: 20;
+            }
+            .subinput{
+                border-bottom-right-radius: 20px;
+                border-top-right-radius: 20px;
+                border: none;
+                outline: none;
+                width: 85%;
+                background-color: #FADCE9;
+                position: relative;
+                left: -10px;
+                padding-left: 15px;
+                z-index: 10;
+            }
+            .topanchor{
+                position: fixed;
+                display: none;
+                right: 0px;
+                height: 5%;
+                width: 5%;
+                z-index: 100;
+            }
+            .content{
+                width: 85%;
+                position: relative;
+                left: 15%;
+                /*这里用margin-top:5%; 会得到不正确的偏移位置,  对于%的运用还有问题.*/
+                top: 5%;
+                min-height: 300px;
+            }
+            .return{
+                position: fixed;
+                display: none;
+                top: 5%;
+                left: 20%;
+                height: 8%;
+                cursor: pointer;
+                z-index: 100;
+            }
+            .prevbtn{
+                position: fixed;
+                display: none;
+                top: 46%;
+                left: 20%;
+                height: 8%;
+                cursor: pointer;
+                z-index: 100;
+            }
+            .nextbtn{
+                position: fixed;
+                display: none;
+                top: 46%;
+                right: 5%;
+                height: 8%;
+                cursor: pointer;
+                z-index: 100;
+            }
+            footer{
+                height: 5%; 
+                width: 100%; 
+                position: fixed; 
+                bottom: 0px; 
+                left: 0px;
+                background-color: white;
+            }
+
+            /*响应式设计. 这里用的是宽高比*/
+            @media screen and (min-aspect-ratio:20943/10000) and (max-aspect-ratio:26032/10000){
+                .navul li{
+                    /*height: 20%;*/
+                    margin-top: 10%;
+                    background-color: red;
+                }
+                .topanchor{
+                    height: 6%;
+                }
+            }
+
+            @media screen and (min-aspect-ratio:26032/10000) and (max-aspect-ratio: 29631/10000){
+                .navul li{
+                    margin-top: 0px;
+                    background-color: green;
+                }
+                .topanchor{
+                    height: 7%;
+                }
+            }
+
+            @media screen and (min-aspect-ratio: 29631/10000){
+                body{
+                    padding-top: 1px;
+                    position: relative;
+                }
+                aside{
+                    position: absolute;
+                    top: 5%;
+                }
+                .navul li{
+                    margin-top: 0px;
+                    /*background-color: blue;*/
+                }
+                .topanchor{
+                    height: 8%;
+                }
+            }
+
+            @media screen and (max-aspect-ratio: 1/1){
+                body{
+                    min-width: 400px;
+                }
+                header{
+                    position: relative;
+                    top: 0px;
+                    left: 0px;
+                }
+                aside{
+                    position: relative;
+                    top: 0px;
+                    left: 0px;
+                    width: 100%;
+                    height: auto;
+                    min-height: 0px;
+                    padding: 0px;
+                }
+                .navul{
+                    display: none;
+                }
+                .subnavul{
+                    display: block;
+                }
+                .subnavul li{
+                    padding: 0 5px;
+                }
+                .topanchor{
+                    display: none;
+                }
+                .content{
+                    position: relative;
+                    top: 0;
+                    left: 0px;
+                    margin: 0 0;
+                    width: 100%;
+                }
+                footer{
+                    position: relative;
+                    top: 0px;
+                    left: 0px;
+                    width: 100%;
+                    height: auto !important;
+                }
+            }
+        </style>  
+        {% block extrahead %} 
+        {% endblock %}
+    </head>
+    <body >
+        <div id= 'topanchor' style= 'position: absolute; top: 0px;'></div>
+        <header></header>
+        <aside class= 'iefixed'>          
+            <nav> 
+                <ul class= 'navul'>
+                    <!-- white-space: nowrap 可以防止文字换行, 也可以防止内联元素换行! -->
+                    <li style= 'white-space: nowrap;' class= 'searchfield'>
+                        <input class= 'input' type= 'text'>
+                        <img src="/static/image/searchbtn.png" width= '50%' class= 'searchbtn'>
+                    </li>
+                    <li>
+                        <a href="/blog/" class= 'navlink' id= 'bloglink'>
+                            <img src="/static/image/rocket.png" width= '100%' class= 'navimg'>
+                            <img src="/static/image/rocketblog.png" class= 'hidenavimg'>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/illustration/" class= 'navlink' id= 'illustrationlink'>                         
+                            <img src="/static/image/earth.png" width= '100%' class= 'navimg'>
+                            <img src="/static/image/earthillustration.png" class= 'hidenavimg'>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/aboutme/" class= 'navlink' id= 'aboutmelink'>                         
+                            <img src="/static/image/allien.png" width= '100%' class= 'navimg'>
+                            <img src="/static/image/allienaboutme.png" class= 'hidenavimg'>
+                        </a>
+                    </li>
+                    <li>
+                        {% block extraspecial %}
+                        {% endblock %}
+                    </li>
+                    <li>
+                        {% block extrapagination %}
+                        {% endblock %}
+                    </li>
+                </ul>
+                <ul class= 'subnavul'>
+                    <li>
+                        <img src="/static/image/subsearchbtn.png" width= '40px' class= 'subsearchbtn'>
+                        <input class= 'subinput' type= 'text'>
+                    </li>
+                    <li>
+                        <img src="/static/image/rocket.png" width= '40px'>
+                        <a href= '/blog/'>Blog</a>
+                    </li> 
+                    <li>                    
+                        <img src="/static/image/earth.png" width= '40px'>
+                        <a href="/illustration/">Illustration</a>
+                    </li>
+                    <li>                     
+                        <img src="/static/image/allien.png" width= '40px'>
+                        <a href="/aboutme/">Aboutme</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        <section class= 'content'>
+            <img src="/static/image/prev.png" class= 'return iefixed'>
+            <img src="/static/image/prev.png" class= 'prevbtn iefixed'>
+            <img src="/static/image/next.png" class= 'nextbtn iefixed'>
+            {% block extracontent %}
+            {% endblock %}
+            <a href= '#topanchor' class= 'topanchor'>
+                <img src="/static/image/topanchor.png" width= '100%' height= '100%'>
+            </a>
+        </section>
+        <footer>
+            {% block extrafooter %}
+            {% endblock %}
+        </footer>
+    </body>
+</html>
+
+
+
+
+
+
+
+

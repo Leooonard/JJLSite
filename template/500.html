@@ -1,0 +1,20 @@
+{% extends 'error.html' %}
+
+{% block extrahead %}
+   <title>500 Error</title>
+   <style type="text/css">
+      a{
+         font-size: 1em !important;
+         text-decoration: underline;
+      }
+      br{
+         font-size: 0.2em !important;
+      }
+   </style>
+{% endblock %}
+
+{% block extracontent %}
+   <article>
+      500 Error!  Server internal error, click <a href="{{href|default:'/main/'}}">here</a>.
+   </article>
+{% endblock %}

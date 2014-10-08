@@ -1,0 +1,58 @@
+
+
+<style type="text/css">  
+      .myshare_qrcodecontainer{
+          width: 340px;
+          height: 400px;
+          position: relative;
+          padding: 20px;
+          margin: 0 auto;
+          top: -600px;
+          display: none;
+          background: white;
+          border-radius: 10px;
+          box-shadow: 3px 3px 13px 10px #666464;
+      }
+      .myshare_qrcodetext{
+          text-align: center;
+      }
+      .myshare_qrcodeclose{
+          position: absolute;
+          right: -8px;
+          top: -8px;
+          cursor: pointer;
+          z-index: 10;
+      }
+</style>
+
+<script type="text/javascript">
+    function close(){
+        var $bigblog_qrcodecontainer= $('.myshare_qrcodecontainer');
+        $bigblog_qrcodecontainer.css('display', 'none');
+    }
+    function share(){      
+        var $this= $(this);
+        var $bigblog_qrcodecontainer= $('.myshare_qrcodecontainer');
+        $bigblog_qrcodecontainer.css('display', 'block');
+        var clientheight= parseInt(document.body.clientHeight);
+        console.log($bigblog_qrcodecontainer.offset().top);
+        if($bigblog_qrcodecontainer.offset().top< clientheight* 0.05){
+           var top= parseInt($bigblog_qrcodecontainer.css('top'));
+           var distance= clientheight* 0.05- $bigblog_qrcodecontainer.offset().top;
+           $bigblog_qrcodecontainer.css('top', top+ distance+ 9+ 'px');
+        }
+    }
+
+     $(document).ready(function(){        
+         var $sharetoweixinbtn= $('#myshare_weixin');
+         $sharetoweixinbtn.click(share);
+         var $shareclose= $('.myshare_qrcodeclose');
+         $shareclose.click(close);
+     });
+</script>
+
+ <article class= 'myshare_qrcodecontainer'>
+     <p class= 'myshare_qrcodetext'>请使用手机微信进行扫码.</br>再在微信内分享至朋友圈.</p>
+     <img src="/static/image/close.png" width= '30px' height= '30px' class= 'myshare_qrcodeclose'>
+     <img src="/static/image/weixinsharecode.png" width= '300px' height= '300px'>
+ </article>

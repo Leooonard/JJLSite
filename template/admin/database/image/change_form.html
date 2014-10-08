@@ -1,0 +1,59 @@
+{% extends 'admin/change_form.html' %}
+
+{% block extrahead%}
+      {{block.super}}
+      <script type="text/javascript" src= '/static/script/jquery-1.11.1.min.js'></script>
+      <script type="text/javascript" src= '/static/script/uploader.js'></script>
+      <script type="text/javascript">
+            $(document).ready(function(){
+                  var $thumb= $('div.thumb');
+                  if($thumb.find('a').get(0)){
+                        var uploadedImgSrc= $thumb.find('a').text().toLowerCase();
+                  }else{
+                        var uploadedImgSrc= $('div.path a[target="_blank"]').text().toLowerCase();  
+                  }
+                  $thumb.remove();
+                  var $uploadedimg= $('#uploadedimg');
+                  if(uploadedImgSrc){
+                        uploadedImgSrc= '/ueupload/'+ (uploadedImgSrc);
+                        /*uploadedImgSrc= encodeURI('/ueupload/'+ uploadedImgSrc);
+                        uploadedImgSrc= encodeURI(uploadedImgSrc);*/
+                        $uploadedimg.css('height', 'auto');
+                        $uploadedimg.attr('src', uploadedImgSrc);
+                  }
+                  var $uploadingimg= $('#uploadingimg');
+                  var $input= $('input:file');
+                  var uploadhelper= new UploadHelper();
+                  uploadhelper.initArgs({
+                        'type': 'image',
+                        'suffixArray': ['jpg', 'png', 'gif'],
+                        'showcaseImg': $uploadingimg
+                  });
+                  uploadhelper.addListener($input);
+            });
+      </script>
+      <style type="text/css">
+            .myadmin_image_showcase{
+                  float: left;
+                  margin-right: 40px;
+            }
+            .myadmin_image_showcasetext{
+                  font-size: 1.4em;
+                  font-family: helvetica, Microsoft Yahei;
+            }
+      </style>
+{% endblock %}
+
+{% block after_field_sets %}
+      <div class= 'wrapper'>
+            <article class= 'myadmin_image_showcase'>
+                  <label class= 'myadmin_image_showcasetext'>已上传图片：</label>
+                  <img id= 'uploadedimg' width= '300px' height= '300px'>
+            </article>
+            <article class= 'myadmin_image_showcase'>
+                  <label class= 'myadmin_image_showcasetext'>新上传图片：</label>
+                  <img id= 'uploadingimg' width= '300px' height= '300px'>
+            </article>
+            <div style= 'clear: both;'></div>
+      </div>
+{% endblock %}

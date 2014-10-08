@@ -1,0 +1,64 @@
+<!DOCTYPE html >
+<html xmlns="http://www.w3.org/1999/xhtml">
+     <head>
+          <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+          <meta name="description" content="标准html格式">
+          <meta name="keywords" content="标准html格式">
+          <title>标准html格式</title>
+          <link rel="shortcut icon" href="image/favicon.ico"/>
+          <script src="jquery-1.11.1.min.js"></script>
+          <script type="text/javascript" src='js/highcharts.js'></script>
+          <script type="text/javascript" src= 'js/highcharts-more.js'></script>
+          <style type="text/css">
+               .chartcontainer{
+                    width: 400px;
+               }
+          </style>
+          <script type="text/javascript">
+               $(document).ready(function(){
+                    var $chartcontainer= $('.chartcontainer');
+                    $chartcontainer.highcharts({
+                         chart: {
+                              type: 'line',
+                              borderRadius: 10
+                         }, 
+                         xAxis: {
+                              categories: ['jan', 'feb']
+                         },
+                         series: [
+                              {
+                                   name: 'jane',
+                                   data: [[2,5],[5,  4] ]
+                              }
+                         ]
+                    });
+
+
+               });
+          </script>
+     </head>
+     <body>
+          <div class= 'chartcontainer'>
+          </div>
+
+          <svg width="640" height="480" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g transform ="translate(0,0)">
+<circle cx="50" cy="50" r="30" stroke="#000000"/>
+</g>
+<g transform ="translate(50,50)">
+<circle cx="50" cy="50" r="30" stroke="#000000"/>
+</g>
+<g transform ="translate(100,100)">
+<circle cx="50" cy="50" r="30" stroke="#000000">
+     <animateTransform 
+        attributeType="xml"
+         attributeName="transform" type="rotate"
+         from="0" to="90"
+         begin="10" dur="5s" 
+         fill="freeze"
+       />
+</circle>
+</g>
+</svg>
+     </body>
+</html>
